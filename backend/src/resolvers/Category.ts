@@ -51,26 +51,26 @@ export class CategoryResolver {
     }
   }
 
-  @Mutation(() => [Category])
-  async populateCategoryTable(): Promise<Category[] | null> {
-    for (let i = 0; i < DummyCategories.length; i++) {
-      try {
-        const newCategory = new Category();
-        newCategory.title = DummyCategories[i].title;
+  // @Mutation(() => [Category])
+  // async populateCategoryTable(): Promise<Category[] | null> {
+  //   for (let i = 0; i < DummyCategories.length; i++) {
+  //     try {
+  //       const newCategory = new Category();
+  //       newCategory.title = DummyCategories[i].title;
 
-        const error = await validateDatas(newCategory);
+  //       const error = await validateDatas(newCategory);
 
-        if (error.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(error)}`);
-        } else {
-          const datas = await newCategory.save();
-        }
-      } catch (error) {
-        throw new Error(`error occured ${JSON.stringify(error)}`);
-      }
-    }
-    return await this.getCategories();
-  }
+  //       if (error.length > 0) {
+  //         throw new Error(`error occured ${JSON.stringify(error)}`);
+  //       } else {
+  //         const datas = await newCategory.save();
+  //       }
+  //     } catch (error) {
+  //       throw new Error(`error occured ${JSON.stringify(error)}`);
+  //     }
+  //   }
+  //   return await this.getCategories();
+  // }
 
   @Mutation(() => Category)
   async deleteCategory(
