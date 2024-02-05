@@ -63,9 +63,9 @@ export class AdResolver {
     const ads = await Ad.find({
       where: whereQuery,
       relations: {
-        category: true,
-        tags: true,
-        user: true,
+        // category: true,
+        // tags: true,
+        // user: true,
       },
       order: whereOrder,
     });
@@ -84,11 +84,11 @@ export class AdResolver {
         where: {
           id: id,
         },
-        relations: {
-          category: true,
-          tags: true,
-          user: true,
-        },
+        // relations: {
+        //   category: true,
+        //   tags: true,
+        //   user: true,
+        // },
       });
       return datas;
     } catch (error) {
@@ -108,11 +108,11 @@ export class AdResolver {
         where: {
           id: id,
         },
-        relations: {
-          tags: true,
-          category: true,
-          user: true,
-        },
+        // relations: {
+        //   tags: true,
+        //   category: true,
+        //   user: true,
+        // },
       });
 
       if (ad) {
@@ -132,7 +132,6 @@ export class AdResolver {
     }
   }
 
-
   @Authorized()
   @Mutation(() => Ad)
   async deleteAd(
@@ -144,11 +143,11 @@ export class AdResolver {
         where: {
           id: id,
         },
-        relations: {
-          category: true,
-          tags: true,
-          user: true,
-        },
+        // relations: {
+        //   category: true,
+        //   tags: true,
+        //   user: true,
+        // },
       });
       if (ad) {
         await ad.remove();
@@ -174,12 +173,12 @@ export class AdResolver {
       newAd.price = inputData.price;
       newAd.imageUrl = inputData.imageUrl;
       newAd.location = inputData.location;
-      newAd.category = inputData.category;
-      newAd.tags = inputData.tags;
+      // newAd.category = inputData.category;
+      // newAd.tags = inputData.tags;
 
-      if (context.user) {
-        newAd.user = context.user;
-      }
+      // if (context.user) {
+      //   newAd.user = context.user;
+      // }
 
       const error = await validateDatas(newAd);
 
@@ -204,9 +203,9 @@ export class AdResolver {
         newAd.price = DummyProduct[i].price;
         newAd.imageUrl = DummyProduct[i].picture;
         newAd.location = DummyProduct[i].location;
-        newAd.category = DummyProduct[i].category;
-        newAd.tags = DummyProduct[i].tags;
-        newAd.user = DummyProduct[i].user;
+        // newAd.category = DummyProduct[i].category;
+        // newAd.tags = DummyProduct[i].tags;
+        // newAd.user = DummyProduct[i].user;
 
         const error = await validateDatas(newAd);
 

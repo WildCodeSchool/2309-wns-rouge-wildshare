@@ -22,9 +22,9 @@ export class Category extends BaseEntity {
   @MaxLength(100, { message: "titre trop long" })
   title!: string;
 
-  @OneToMany(() => Ad, (ads) => ads.category)
-  @Field(() => [Ad])
-  ads!: Ad[];
+  // @OneToMany(() => Ad, (ads) => ads.category)
+  // @Field(() => [Ad])
+  // ads!: Ad[];
 }
 
 @InputType()

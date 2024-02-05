@@ -33,7 +33,6 @@ export class Ad extends BaseEntity {
   @Field()
   description!: string;
 
-
   @Column()
   @Field()
   price!: number;
@@ -55,18 +54,18 @@ export class Ad extends BaseEntity {
   @Field()
   location!: string;
 
-  @ManyToOne(() => Category, (category) => category.ads)
-  @Field(() => Category)
-  category!: Category;
+  // @ManyToOne(() => Category, (category) => category.ads)
+  // @Field(() => Category)
+  // category!: Category;
 
-  @ManyToMany(() => Tag, (tag) => tag.ads)
-  @JoinTable()
-  @Field(() => [Tag])
-  tags!: Tag[];
+  // @ManyToMany(() => Tag, (tag) => tag.ads)
+  // @JoinTable()
+  // @Field(() => [Tag])
+  // tags!: Tag[];
 
-  @ManyToOne(() => User, (user) => user.ads)
-  @Field(() => User)
-  user!: User;
+  // @ManyToOne(() => User, (user) => user.ads)
+  // @Field(() => User)
+  // user!: User;
 }
 
 @InputType()
@@ -91,7 +90,6 @@ export class InputAd {
 
   @Field(() => [ObjectID])
   tags!: Tag[];
-
 }
 
 @ObjectType()

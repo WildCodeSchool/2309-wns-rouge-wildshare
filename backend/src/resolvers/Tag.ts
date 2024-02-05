@@ -8,9 +8,9 @@ export class TagResolver {
   @Query(() => [Tag])
   async getTags(): Promise<Tag[]> {
     return await Tag.find({
-      relations: {
-        ads: true,
-      },
+      // relations: {
+      //   ads: true,
+      // },
     });
   }
 
@@ -21,9 +21,9 @@ export class TagResolver {
         where: {
           id: id,
         },
-        relations: {
-          ads: true,
-        },
+        // relations: {
+        //   ads: true,
+        // },
       });
       return datas;
     } catch (error) {
