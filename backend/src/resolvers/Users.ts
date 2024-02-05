@@ -29,7 +29,9 @@ export class UserResolver {
     }
     const newUser = new User();
     newUser.email = data.email;
-    newUser.hashPassword = await argon2.hash(data.password);
+    newUser.hashed_password = await argon2.hash(data.password);
+    newUser.lastname = data.lastname;
+    newUser.firstname = data.firstname;
     await newUser.save();
     return newUser;
   }
@@ -41,7 +43,7 @@ export class UserResolver {
   ): Promise<User | null> {
     const existingUser = await User.findOneBy({ email: data.email });
     if (existingUser) {
-      if (await argon2.verify(existingUser.hashPassword, data.password)) {
+      if (await argon2.verify(existingUser.hashed_password, data.password)) {
         const token = jwt.sign(
           {
             exp: Math.floor(Date.now() / 1000) + 60 * 60 * 2,
@@ -82,20 +84,20 @@ export class UserResolver {
     return user;
   }
 
-  @Mutation(() => User)
-  async populateUserTable(): Promise<User | null> {
-    const error = await validateDatas(DummyUser);
-    if (error.length > 0) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
-    }
-    const existingUser = await User.findOneBy({ email: DummyUser.email });
-    if (existingUser) {
-      throw new Error(`User already exists`);
-    }
-    const newUser = new User();
-    newUser.email = DummyUser.email;
-    newUser.hashPassword = await argon2.hash(DummyUser.password);
-    await newUser.save();
-    return newUser;
-  }
+  // @Mutation(() => User)
+  // async populateUserTable(): Promise<User | null> {
+  //   const error = await validateDatas(DummyUser);
+  //   if (error.length > 0) {
+  //     throw new Error(`error occured ${JSON.stringify(error)}`);
+  //   }
+  //   const existingUser = await User.findOneBy({ email: DummyUser.email });
+  //   if (existingUser) {
+  //     throw new Error(`User already exists`);
+  //   }
+  //   const newUser = new User();
+  //   newUser.email = DummyUser.email;
+  //   newUser.hashed_password = await argon2.hash(DummyUser.password);
+  //   await newUser.save();
+  //   return newUser;
+  // }
 }

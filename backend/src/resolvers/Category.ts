@@ -5,13 +5,12 @@ import { DummyCategories } from "../dummyDatas";
 
 @Resolver(Category)
 export class CategoryResolver {
-
   @Query(() => [Category])
   async getCategories(): Promise<Category[]> {
     return await Category.find({
-      relations: {
-        ads: true,
-      },
+      // relations: {
+      //   ads: true,
+      // },
     });
   }
 
@@ -22,9 +21,9 @@ export class CategoryResolver {
         where: {
           id: id,
         },
-        relations: {
-          ads: true,
-        },
+        // relations: {
+        //   ads: true,
+        // },
       });
       return datas;
     } catch (error) {

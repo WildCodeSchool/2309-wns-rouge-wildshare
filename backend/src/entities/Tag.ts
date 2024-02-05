@@ -22,9 +22,9 @@ export class Tag extends BaseEntity {
   @MaxLength(100, { message: "titre trop long" })
   title!: string;
 
-  @ManyToMany(() => Ad, (ads) => ads.tags)
-  @Field(() => [Ad])
-  ads!: Ad[];
+  // @ManyToMany(() => Ad, (ads) => ads.tags)
+  // @Field(() => [Ad])
+  // ads!: Ad[];
 }
 
 @InputType()
