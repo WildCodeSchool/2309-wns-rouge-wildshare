@@ -5,16 +5,17 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { Member } from "./Member";
 
 @Entity()
 @ObjectType()
-export class Image extends BaseEntity {
+export class Group extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: number;
@@ -22,12 +23,11 @@ export class Image extends BaseEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   name!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
-  path!: string;
+  @Column({ type: "text" })
+  description!: string;
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  user_id!: User;
+  @Column({ type: "varchar", length: 255, nullable: false })
+  token!: string;
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
@@ -49,4 +49,8 @@ export class Image extends BaseEntity {
   @OneToOne(() => User)
   @JoinColumn()
   updated_by!: User;
+
+  @OneToMany(() => Member, (members) => members.user)
+  @Field(() => [Member])
+  members!: Member[];
 }

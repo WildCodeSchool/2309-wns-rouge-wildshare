@@ -32,10 +32,10 @@ export class TagResolver {
   }
 
   @Mutation(() => Tag)
-  async addNewTag(@Arg("data") { title }: InputTag): Promise<Tag> {
+  async addNewTag(@Arg("data") { name }: InputTag): Promise<Tag> {
     try {
       const newTag = new Tag();
-      newTag.title = title;
+      newTag.name = name;
       const error = await validateDatas(newTag);
 
       if (error.length > 0) {
@@ -49,26 +49,26 @@ export class TagResolver {
     }
   }
 
-  @Mutation(() => [Tag])
-  async populateTagTable(): Promise<Tag[] | null> {
-    for (let i = 0; i < DummyTag.length; i++) {
-      try {
-        const newTag = new Tag();
-        newTag.title = DummyTag[i].title;
+  // @Mutation(() => [Tag])
+  // async populateTagTable(): Promise<Tag[] | null> {
+  //   for (let i = 0; i < DummyTag.length; i++) {
+  //     try {
+  //       const newTag = new Tag();
+  //       newTag.name = DummyTag[i].name;
 
-        const error = await validateDatas(newTag);
+  //       const error = await validateDatas(newTag);
 
-        if (error.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(error)}`);
-        } else {
-          const datas = await newTag.save();
-        }
-      } catch (error) {
-        throw new Error(`error occured ${JSON.stringify(error)}`);
-      }
-    }
-    return await this.getTags();
-  }
+  //       if (error.length > 0) {
+  //         throw new Error(`error occured ${JSON.stringify(error)}`);
+  //       } else {
+  //         const datas = await newTag.save();
+  //       }
+  //     } catch (error) {
+  //       throw new Error(`error occured ${JSON.stringify(error)}`);
+  //     }
+  //   }
+  //   return await this.getTags();
+  // }
 
   @Mutation(() => Tag)
   async deleteTag(
@@ -93,7 +93,7 @@ export class TagResolver {
   async updateTag(
     @Arg("id")
     id: number,
-    @Arg("data") { title }: InputTag
+    @Arg("data") { name }: InputTag
   ): Promise<Tag | null> {
     try {
       const tag = await Tag.findOne({
@@ -103,7 +103,7 @@ export class TagResolver {
       });
 
       if (tag) {
-        Object.assign(tag, { title: title }, { id: id });
+        Object.assign(tag, { name: name }, { id: id });
         const error = await validateDatas(tag);
         if (error.length > 0) {
           throw new Error(`error occured ${JSON.stringify(error)}`);

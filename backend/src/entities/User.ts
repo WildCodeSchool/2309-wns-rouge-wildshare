@@ -12,6 +12,8 @@ import { IsEmail, Matches } from "class-validator";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { Ad } from "./Ad";
 import { Tag } from "./Tag";
+import { Member } from "./Member";
+import { Message } from "./Message";
 
 @Entity()
 @ObjectType()
@@ -51,6 +53,14 @@ export class User extends BaseEntity {
   @OneToMany(() => Tag, (tags) => tags.user)
   @Field(() => [Tag])
   tags!: Tag[];
+
+  @OneToMany(() => Member, (members) => members.user)
+  @Field(() => [Member])
+  members!: Member[];
+
+  @OneToMany(() => Message, (messages) => messages.user)
+  @Field(() => [Message])
+  messages!: Message[];
 }
 
 @InputType()

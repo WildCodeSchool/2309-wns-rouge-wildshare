@@ -5,7 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
@@ -14,20 +14,14 @@ import { User } from "./User";
 
 @Entity()
 @ObjectType()
-export class Image extends BaseEntity {
+export class Message extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
-  name!: string;
-
-  @Column({ type: "varchar", length: 255, nullable: false })
-  path!: string;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user_id!: User;
+  @ManyToOne(() => User, (users) => users.messages)
+  @Field(() => [User])
+  user!: User;
 
   @Column({ type: "timestamp", nullable: false })
   @Field()

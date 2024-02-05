@@ -193,31 +193,31 @@ export class AdResolver {
     }
   }
 
-  @Mutation(() => AdsWithMaxPrice)
-  async populateAdsTable(): Promise<{ ads: Ad[]; maxPrice: number }> {
-    for (let i = 0; i < DummyProduct.length; i++) {
-      try {
-        const newAd = new Ad();
-        newAd.title = DummyProduct[i].title;
-        newAd.description = DummyProduct[i].description;
-        newAd.price = DummyProduct[i].price;
-        newAd.imageUrl = DummyProduct[i].picture;
-        newAd.location = DummyProduct[i].location;
-        // newAd.category = DummyProduct[i].category;
-        // newAd.tags = DummyProduct[i].tags;
-        // newAd.user = DummyProduct[i].user;
+  // @Mutation(() => AdsWithMaxPrice)
+  // async populateAdsTable(): Promise<{ ads: Ad[]; maxPrice: number }> {
+  //   for (let i = 0; i < DummyProduct.length; i++) {
+  //     try {
+  //       const newAd = new Ad();
+  //       newAd.title = DummyProduct[i].title;
+  //       newAd.description = DummyProduct[i].description;
+  //       newAd.price = DummyProduct[i].price;
+  //       newAd.imageUrl = DummyProduct[i].picture;
+  //       newAd.location = DummyProduct[i].location;
+  //       // newAd.category = DummyProduct[i].category;
+  //       // newAd.tags = DummyProduct[i].tags;
+  //       // newAd.user = DummyProduct[i].user;
 
-        const error = await validateDatas(newAd);
+  //       const error = await validateDatas(newAd);
 
-        if (error.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(error)}`);
-        } else {
-          const datas = await newAd.save();
-        }
-      } catch (error) {
-        throw new Error(`error occured ${JSON.stringify(error)}`);
-      }
-    }
-    return await this.getAds();
-  }
+  //       if (error.length > 0) {
+  //         throw new Error(`error occured ${JSON.stringify(error)}`);
+  //       } else {
+  //         const datas = await newAd.save();
+  //       }
+  //     } catch (error) {
+  //       throw new Error(`error occured ${JSON.stringify(error)}`);
+  //     }
+  //   }
+  //   return await this.getAds();
+  // }
 }
