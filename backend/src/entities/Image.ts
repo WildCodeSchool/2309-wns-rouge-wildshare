@@ -29,7 +29,7 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   user_id!: User;
 
   @Column({ type: "timestamp", nullable: false })
