@@ -6,7 +6,6 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
@@ -17,6 +16,14 @@ export class Link extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: number;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  title!: string;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  url!: string;
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
