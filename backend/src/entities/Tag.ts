@@ -29,10 +29,6 @@ export class Tag extends BaseEntity {
   @MaxLength(100, { message: "titre trop long" })
   name!: string;
 
-  // @ManyToMany(() => Ad, (ads) => ads.tags)
-  // @Field(() => [Ad])
-  // ads!: Ad[];
-
   @ManyToOne(() => User, (users) => users.tags)
   @Field(() => User)
   user!: User;
@@ -48,7 +44,7 @@ export class Tag extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -62,7 +58,9 @@ export class Tag extends BaseEntity {
 }
 
 @InputType()
-export class InputTag {
+export class TagInput {
   @Field()
   name!: string;
+  // @Field(() => User, { nullable: true })
+  // user!: User;
 }

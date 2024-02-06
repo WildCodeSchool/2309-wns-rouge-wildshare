@@ -29,7 +29,7 @@ export class Link extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -38,6 +38,6 @@ export class Link extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   updated_by!: User;
 }

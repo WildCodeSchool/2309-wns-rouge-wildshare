@@ -46,10 +46,6 @@ export class User extends BaseEntity {
     this.created_at = new Date();
   }
 
-  // @OneToMany(() => Ad, (ads) => ads.user)
-  // @Field(() => [Ad])
-  // ads!: Ad[];
-
   @OneToMany(() => Tag, (tags) => tags.user)
   @Field(() => [Tag])
   tags!: Tag[];
