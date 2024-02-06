@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   BeforeInsert,
@@ -29,6 +29,7 @@ export class Member extends BaseEntity {
   group!: Group;
 
   @Column({ type: "timestamp" })
+  @Field()
   last_visit!: Date;
 
   @Column({ type: "timestamp", nullable: false })
@@ -48,3 +49,6 @@ export class Member extends BaseEntity {
   @Field(() => [Right])
   rights!: Right[];
 }
+
+@InputType()
+export class MemberInput {}

@@ -76,3 +76,11 @@ export class InputUser {
   @Field()
   firstname!: string;
 }
+
+@InputType()
+export class UserUpdateInput {
+  @Field({ nullable: true })
+  lastname!: string;
+  @Field({ nullable: true })
+  firstname!: string;
+}

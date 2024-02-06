@@ -21,9 +21,9 @@ export class TagResolver {
         where: {
           id: id,
         },
-        // relations: {
-        //   ads: true,
-        // },
+        relations: {
+          user: true,
+        },
       });
       return datas;
     } catch (error) {

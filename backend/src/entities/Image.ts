@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   BeforeInsert,
@@ -11,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { InputTag } from "./Tag";
 
 @Entity()
 @ObjectType()
@@ -20,13 +21,16 @@ export class Image extends BaseEntity {
   id!: number;
 
   @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
   name!: string;
 
   @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
   path!: string;
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   user_id!: User;
 
   @Column({ type: "timestamp", nullable: false })
@@ -40,6 +44,7 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -48,5 +53,9 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   updated_by!: User;
 }
+
+@InputType()
+export class ImageInput {}
