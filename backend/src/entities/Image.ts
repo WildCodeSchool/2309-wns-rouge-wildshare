@@ -54,6 +54,11 @@ export class Image extends BaseEntity {
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
+
+  /*@OneToOne(() => Ressource)
+  @JoinColumn()
+  @Field()
+  ressource_id!: Ressource; */
 }
 
 @InputType()

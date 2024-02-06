@@ -6,7 +6,6 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
@@ -17,6 +16,18 @@ export class File extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: number;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  title!: string;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  type!: string;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  path!: string;
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
