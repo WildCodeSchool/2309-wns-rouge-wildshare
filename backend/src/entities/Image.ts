@@ -11,7 +11,6 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
-import { InputTag } from "./Tag";
 
 @Entity()
 @ObjectType()
@@ -44,7 +43,7 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -53,9 +52,16 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   updated_by!: User;
 }
 
 @InputType()
-export class ImageInput {}
+export class ImageInput {
+  @Field()
+  name!: string;
+  @Field()
+  path!: string;
+  @Field(() => User, { nullable: true })
+  user_id!: User;
+}

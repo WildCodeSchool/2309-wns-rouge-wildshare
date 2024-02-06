@@ -34,7 +34,7 @@ export class Message extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -43,6 +43,6 @@ export class Message extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   updated_by!: User;
 }

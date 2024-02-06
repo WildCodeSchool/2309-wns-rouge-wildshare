@@ -51,4 +51,16 @@ export class Member extends BaseEntity {
 }
 
 @InputType()
-export class MemberInput {}
+export class MemberInput {
+  @Field(() => User)
+  user!: User;
+
+  @Field(() => Group)
+  group!: Group;
+
+  @Field({ nullable: true })
+  last_visit!: Date;
+
+  @Field(() => [Right])
+  rights!: Right[];
+}

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   BeforeInsert,
@@ -43,7 +43,7 @@ export class Group extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -52,10 +52,22 @@ export class Group extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   updated_by!: User;
 
   @OneToMany(() => Member, (members) => members.user)
   @Field(() => [Member])
   members!: Member[];
+}
+
+@InputType()
+export class GroupInput {
+  @Field()
+  name!: string;
+  @Field()
+  description!: string;
+  @Field()
+  token!: string;
+  // @Field(() => User)
+  // created_by!: User;
 }
