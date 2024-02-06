@@ -21,10 +21,14 @@ export class MemberResolver {
   }
 
   @Mutation(() => Member)
-  async createMember(@Arg("data") {}: MemberInput): Promise<Member> {
+  async createMember(
+    @Arg("data", () => MemberInput) data: MemberInput
+  ): Promise<Member> {
     try {
       const newMember = new Member();
-      // newMember.name = name;
+      newMember.user = data.user;
+      newMember.group = data.group;
+      newMember.rights = data.rights;
       const error = await validate(newMember);
 
       if (error.length > 0) {

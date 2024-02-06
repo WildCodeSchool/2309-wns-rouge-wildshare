@@ -1,5 +1,5 @@
 import { Resolver, Query, Arg, Mutation, Authorized } from "type-graphql";
-import { Tag, InputTag } from "../entities/Tag";
+import { Tag, TagInput } from "../entities/Tag";
 import { validateDatas } from "../utils/validate";
 import { DummyTag } from "../dummyDatas";
 
@@ -8,9 +8,9 @@ export class TagResolver {
   @Query(() => [Tag])
   async getTags(): Promise<Tag[]> {
     return await Tag.find({
-      // relations: {
-      //   ads: true,
-      // },
+      relations: {
+        user: true,
+      },
     });
   }
 
@@ -32,10 +32,13 @@ export class TagResolver {
   }
 
   @Mutation(() => Tag)
-  async addNewTag(@Arg("data") { name }: InputTag): Promise<Tag> {
+  async addNewTag(@Arg("data", () => TagInput) data: TagInput): Promise<Tag> {
     try {
       const newTag = new Tag();
-      newTag.name = name;
+      newTag.name = data.name;
+      if (data.user) {
+        newTag.user = data.user;
+      }
       const error = await validateDatas(newTag);
 
       if (error.length > 0) {
@@ -93,7 +96,7 @@ export class TagResolver {
   async updateTag(
     @Arg("id")
     id: number,
-    @Arg("data") { name }: InputTag
+    @Arg("data", () => TagInput) data: TagInput
   ): Promise<Tag | null> {
     try {
       const tag = await Tag.findOne({
@@ -103,7 +106,7 @@ export class TagResolver {
       });
 
       if (tag) {
-        Object.assign(tag, { name: name }, { id: id });
+        Object.assign(tag, data, { id: id });
         const error = await validateDatas(tag);
         if (error.length > 0) {
           throw new Error(`error occured ${JSON.stringify(error)}`);
