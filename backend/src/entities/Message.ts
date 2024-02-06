@@ -7,10 +7,10 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { Group } from "./Group";
 
 @Entity()
 @ObjectType()
@@ -22,6 +22,10 @@ export class Message extends BaseEntity {
   @ManyToOne(() => User, (users) => users.messages)
   @Field(() => [User])
   user!: User;
+
+  @ManyToOne(() => Group, (group) => group.messages)
+  @Field(() => Group)
+  group!: Group;
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
