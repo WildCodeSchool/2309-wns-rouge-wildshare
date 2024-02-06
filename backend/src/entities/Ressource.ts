@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   BeforeInsert,
@@ -29,6 +29,7 @@ export class Ressource extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -37,5 +38,9 @@ export class Ressource extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   updated_by!: User;
 }
+
+@InputType()
+export class RessourceInput {}

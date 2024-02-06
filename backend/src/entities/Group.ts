@@ -21,12 +21,15 @@ export class Group extends BaseEntity {
   id!: number;
 
   @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
   name!: string;
 
   @Column({ type: "text" })
+  @Field()
   description!: string;
 
   @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
   token!: string;
 
   @Column({ type: "timestamp", nullable: false })
@@ -40,6 +43,7 @@ export class Group extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   created_by!: User;
 
   @Column({ type: "timestamp", nullable: true })
@@ -48,6 +52,7 @@ export class Group extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
+  @Field()
   updated_by!: User;
 
   @OneToMany(() => Member, (members) => members.user)

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -17,9 +17,16 @@ export class Right extends BaseEntity {
   id!: number;
 
   @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
   name!: string;
 
   @ManyToMany(() => Member, (members) => members.rights)
   @Field(() => [Member])
   members!: Member[];
+}
+
+@InputType()
+export class RightInput {
+  @Field()
+  name!: string;
 }
