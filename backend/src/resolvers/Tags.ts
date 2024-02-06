@@ -2,6 +2,7 @@ import { Resolver, Query, Arg, Mutation, Authorized } from "type-graphql";
 import { Tag, TagInput } from "../entities/Tag";
 import { validateDatas } from "../utils/validate";
 import { DummyTag } from "../dummyDatas";
+import { validate } from "class-validator";
 
 @Resolver(Tag)
 export class TagResolver {
@@ -36,10 +37,8 @@ export class TagResolver {
     try {
       const newTag = new Tag();
       newTag.name = data.name;
-      if (data.user) {
-        newTag.user = data.user;
-      }
-      const error = await validateDatas(newTag);
+
+      const error = await validate(newTag);
 
       if (error.length > 0) {
         throw new Error(`error occured ${JSON.stringify(error)}`);

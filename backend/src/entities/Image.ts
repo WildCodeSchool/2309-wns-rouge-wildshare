@@ -12,7 +12,6 @@ import {
 } from "typeorm";
 import { User } from "./User";
 //import { Ressource } from "./Ressource"
-import { InputTag } from "./Tag";
 
 @Entity()
 @ObjectType()
@@ -31,7 +30,7 @@ export class Image extends BaseEntity {
 
   @OneToOne(() => User)
   @JoinColumn()
-  @Field()
+  @Field(() => User)
   user_id!: User;
 
   @Column({ type: "timestamp", nullable: false })
