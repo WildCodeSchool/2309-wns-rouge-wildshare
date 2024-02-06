@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 import { Member } from "./Member";
+import { Message } from "./Message";
 
 @Entity()
 @ObjectType()
@@ -58,6 +59,10 @@ export class Group extends BaseEntity {
   @OneToMany(() => Member, (members) => members.user)
   @Field(() => [Member])
   members!: Member[];
+
+  @OneToMany(() => Message, (messages) => messages.group)
+  @Field(() => [Message])
+  messages!: Message[];
 }
 
 @InputType()

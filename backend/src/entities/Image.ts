@@ -11,6 +11,9 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import { Ressource } from "./Ressource"
+import { InputTag } from "./Tag";
+
 
 @Entity()
 @ObjectType()
@@ -54,6 +57,11 @@ export class Image extends BaseEntity {
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
+
+  /*@OneToOne(() => Ressource)
+  @JoinColumn()
+  @Field()
+  ressource_id!: Ressource; */
 }
 
 @InputType()
