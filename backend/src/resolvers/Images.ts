@@ -21,10 +21,16 @@ export class ImageResolver {
   }
 
   @Mutation(() => Image)
-  async createImage(@Arg("data") {}: ImageInput): Promise<Image> {
+  async createImage(
+    @Arg("data", () => ImageInput) data: ImageInput
+  ): Promise<Image> {
     try {
       const newImage = new Image();
-      // newImage.name = name;
+      newImage.name = data.name;
+      newImage.path = data.path;
+      if (data.user_id) {
+        newImage.user_id = data.user_id;
+      }
       const error = await validate(newImage);
 
       if (error.length > 0) {
