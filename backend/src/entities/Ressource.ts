@@ -46,11 +46,11 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
-  created_at!: Date;
+  created_at!: number;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = new Date();
+    this.created_at = Date.now();
   }
 
   @ManyToOne(() => User)
@@ -60,7 +60,7 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: Date;
+  updated_at!: number;
 
   @ManyToOne(() => User)
   @JoinColumn()

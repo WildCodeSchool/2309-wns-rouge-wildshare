@@ -53,7 +53,7 @@ export class User extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
-  email_validation_token_expires!: Date;
+  email_validation_token_expires!: number;
 
   @Column({ type: "boolean", nullable: false })
   @Field()
@@ -61,16 +61,16 @@ export class User extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
-  created_at!: Date;
+  created_at!: number;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = new Date();
+    this.created_at = Date.now();
   }
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: Date;
+  updated_at!: number;
 
   @OneToMany(() => Tag, (tags) => tags.created_by)
   @Field(() => [Tag])
