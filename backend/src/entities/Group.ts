@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -42,7 +43,7 @@ export class Group extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -51,12 +52,12 @@ export class Group extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
 
-  @OneToMany(() => Member, (members) => members.user)
+  @OneToMany(() => Member, (members) => members.group)
   @Field(() => [Member])
   members!: Member[];
 

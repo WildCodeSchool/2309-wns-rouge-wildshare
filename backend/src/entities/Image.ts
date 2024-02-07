@@ -6,6 +6,7 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
@@ -27,11 +28,6 @@ export class Image extends BaseEntity {
   @Field()
   path!: string;
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  @Field(() => User)
-  user_id!: User;
-
   @Column({ type: "timestamp", nullable: false })
   @Field()
   created_at!: Date;
@@ -41,7 +37,7 @@ export class Image extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -50,15 +46,10 @@ export class Image extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
-
-  /*@OneToOne(() => Ressource)
-  @JoinColumn()
-  @Field()
-  ressource_id!: Ressource; */
 }
 
 @InputType()

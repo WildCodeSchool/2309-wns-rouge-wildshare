@@ -19,9 +19,9 @@ export class Message extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @ManyToOne(() => User, (users) => users.messages)
-  @Field(() => [User])
-  user!: User;
+  // @ManyToOne(() => User, (users) => users.messages)
+  // @Field(() => [User])
+  // user!: User;
 
   @ManyToOne(() => Group, (group) => group.messages)
   @Field(() => Group)
@@ -36,7 +36,7 @@ export class Message extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User, (users) => users.messages)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -45,7 +45,7 @@ export class Message extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;

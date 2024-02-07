@@ -9,14 +9,16 @@ import {
   BeforeInsert,
   Timestamp,
   JoinTable,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import { IsEmail, Matches } from "class-validator";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
-import { Ad } from "./Ad";
 import { Tag } from "./Tag";
 import { Member } from "./Member";
 import { Message } from "./Message";
 import { Ressource } from "./Ressource";
+import { Image } from "./Image";
 
 @Entity()
 @ObjectType()
@@ -40,6 +42,23 @@ export class User extends BaseEntity {
   @Field()
   firstname!: string;
 
+  @OneToOne(() => Image)
+  @JoinColumn()
+  @Field()
+  image_id!: Image;
+
+  @Column({ type: "varchar", length: 255, nullable: false })
+  @Field()
+  email_validation_token!: string;
+
+  @Column({ type: "timestamp", nullable: false })
+  @Field()
+  email_validation_token_expires!: Date;
+
+  @Column({ type: "boolean", nullable: false })
+  @Field()
+  is_account_validated!: boolean;
+
   @Column({ type: "timestamp", nullable: false })
   @Field()
   created_at!: Date;
@@ -49,15 +68,19 @@ export class User extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToMany(() => Tag, (tags) => tags.user)
+  @Column({ type: "timestamp", nullable: true })
+  @Field()
+  updated_at!: Date;
+
+  @OneToMany(() => Tag, (tags) => tags.created_by)
   @Field(() => [Tag])
   tags!: Tag[];
 
-  @OneToMany(() => Member, (members) => members.user)
+  @OneToMany(() => Member, (members) => members.created_by)
   @Field(() => [Member])
   members!: Member[];
 
-  @OneToMany(() => Message, (messages) => messages.user)
+  @OneToMany(() => Message, (messages) => messages.created_by)
   @Field(() => [Message])
   messages!: Message[];
 
@@ -65,7 +88,6 @@ export class User extends BaseEntity {
   @JoinTable()
   @Field(() => [Ressource])
   ressource!: Ressource[];
-
 }
 
 @InputType()

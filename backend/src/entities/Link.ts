@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -34,7 +35,7 @@ export class Link extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -43,7 +44,7 @@ export class Link extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;

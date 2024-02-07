@@ -10,6 +10,7 @@ import {
   PrimaryColumn,
   PrimaryGeneratedColumn,
   JoinTable,
+  ManyToOne,
 } from "typeorm";
 import { User } from "./User";
 import { Link } from "./Link";
@@ -34,6 +35,15 @@ export class Ressource extends BaseEntity {
   @Field()
   description!: string;
 
+  @Column({ type: "boolean", default: 0 })
+  @Field()
+  is_favorite!: string;
+
+  @OneToOne(() => Image)
+  @JoinColumn()
+  @Field()
+  image_id!: Image;
+
   @Column({ type: "timestamp", nullable: false })
   @Field()
   created_at!: Date;
@@ -43,7 +53,7 @@ export class Ressource extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -52,7 +62,7 @@ export class Ressource extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
@@ -67,16 +77,10 @@ export class Ressource extends BaseEntity {
   @Field()
   link_id!: Link;
 
-  @OneToOne(() => Image)
-  @JoinColumn()
-  @Field()
-  image_id!: Image;
-
   @ManyToMany(() => User, (user) => user.ressource)
   @JoinTable()
   @Field(() => [User])
   user!: User[];
-
 }
 
 @InputType()

@@ -8,11 +8,7 @@ import { validate } from "class-validator";
 export class TagResolver {
   @Query(() => [Tag])
   async getTags(): Promise<Tag[]> {
-    return await Tag.find({
-      relations: {
-        user: true,
-      },
-    });
+    return await Tag.find({});
   }
 
   @Query(() => Tag)
@@ -21,9 +17,6 @@ export class TagResolver {
       const datas = await Tag.findOne({
         where: {
           id: id,
-        },
-        relations: {
-          user: true,
         },
       });
       return datas;
