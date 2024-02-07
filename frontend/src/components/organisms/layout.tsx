@@ -16,7 +16,7 @@ export default function Layout(props: LayoutProps): React.ReactNode {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      {/* <Header /> */}
       <Menu />
       <main className="full_width main layout_container">{props.children}</main>
     </div>

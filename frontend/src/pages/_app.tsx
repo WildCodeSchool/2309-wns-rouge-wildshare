@@ -37,7 +37,6 @@ function Auth(props: { children: React.ReactNode }) {
       }
     }
   }, [router, error, data]);
-
   return props.children;
 }
 

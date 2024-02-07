@@ -16,32 +16,17 @@ export default function MenuItem(props: MenuItemType): React.ReactNode {
     ? "bi bi-chevron-up sub_menu_chevron"
     : "bi bi-chevron-down sub_menu_chevron";
 
-  const items = props.subItems?.map((item) => {
-    if ("name" in item) {
-      return (
-        <a href={`/group/${item.token}`} key={item.id}>
-          <li>{item.name}</li>
-        </a>
-      );
-    } else {
-      return (
-        <a
-          href={item.link === null ? item.file?.path : item.link?.url}
-          key={item.id}
-        >
-          <li>{item.title}</li>
-        </a>
-      );
-    }
-  });
-
   return (
     <div className="menu_item_container">
       <div className={`${itemClassName} ${contentClassName}`}>
-        <i
-          className={props.focused ? props.focusedClassName : props.className}
-        />
-        {props.menuOpened && <a href="#">{props.title}</a>}
+        {props.children ? (
+          props.children
+        ) : (
+          <i
+            className={props.focused ? props.focusedClassName : props.className}
+          />
+        )}
+        {props.menuOpened && <a href={props.link}>{props.title}</a>}
         {props.menuOpened && props.hasSubItems && (
           <i
             className={chevronClassName}
@@ -51,12 +36,21 @@ export default function MenuItem(props: MenuItemType): React.ReactNode {
       </div>
       {props.menuOpened && props.hasSubItems && subMenuExpanded && (
         <div className="sub_menu_item">
-          <ul>{items}</ul>
+          <ul>
+            {props.subItems?.map((item) => (
+              <a
+                href={"name" in item ? `/group/${item.token}` : item.link}
+                key={"name" in item ? item.name : item.title}
+              >
+                <li>{"name" in item ? item.name : item.title}</li>
+              </a>
+            ))}
+          </ul>
         </div>
       )}
       {props.title === "Mes groupes" && props.menuOpened && (
         <button className="btn_primary menu_button_add_group">
-          <i className="bi bi-plus-circle"/>
+          <i className="bi bi-plus-circle" />
           <span>Ajouter un groupe</span>
         </button>
       )}

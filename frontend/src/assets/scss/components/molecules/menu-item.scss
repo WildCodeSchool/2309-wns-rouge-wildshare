@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   width: 100%;
   cursor: pointer;
   .menu_item {
@@ -14,11 +14,11 @@
     transition: all 0.3s ease 0s;
     cursor: pointer;
     i {
-      font-size: 2em;
+      font-size: 2.35em;
       color: $primary-color1;
     }
     a {
-      margin-left: 20px;
+      margin-left: 15px;
       font-size: 1.125em;
       color: white;
       font-family: poppinsLight;
@@ -32,11 +32,23 @@
     & :hover {
       transform: none;
     }
+    .user_profile_button {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      background-color: $primary-color8;
+      text-decoration: none;
+      span {
+        font-size: 0.5em;
+        font-family: poppinsMedium;
+        color: white;
+      }
+    }
   }
   .menu_item:hover {
     background-color: $black-shadow;
     i {
-      transform: scale(1.3);
+      transform: scale(1.1);
     }
   }
   .menu_button_add_group {
@@ -82,5 +94,20 @@
         background-color: $black-shadow;
       }
     }
+  }
+}
+
+#menu_item_container_close_button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  .menu_item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
   }
 }

@@ -14,13 +14,6 @@ header {
     align-items: center;
     height: 100%;
     margin-inline: 3em;
-    a {
-      img {
-        width: 100%;
-        height: 100%;
-        content: url("../../../images/logo.svg");
-      }
-    }
     .header_buttons {
       gap: 20px;
       display: flex;

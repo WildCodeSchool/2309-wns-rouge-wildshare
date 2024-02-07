@@ -4,3 +4,8 @@ export type ExtraTypes = {
   updated_at: Date;
   update_by_id: number;
 };
+
+export type LogoType = {
+  className: string;
+  link: string;
+};
