@@ -22,7 +22,7 @@ menu {
     flex-direction: column;
     height: 100%;
     padding-top: 50px;
-    button {
+    #menu_wrapper_button {
       position: absolute;
       height: 60px;
       width: 60px;
@@ -34,7 +34,7 @@ menu {
         color: black;
       }
     }
-    button:hover {
+    #menu_wrapper_button:hover {
       background-color: $primary-color1;
       i {
         color: white;

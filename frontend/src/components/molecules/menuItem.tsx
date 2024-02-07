@@ -29,7 +29,7 @@ export default function MenuItem(props: MenuItemType): React.ReactNode {
           href={item.link === null ? item.file?.path : item.link?.url}
           key={item.id}
         >
-          <li>{item.link === null ? item.file?.title : item.link?.title}</li>
+          <li>{item.title}</li>
         </a>
       );
     }
@@ -53,6 +53,12 @@ export default function MenuItem(props: MenuItemType): React.ReactNode {
         <div className="sub_menu_item">
           <ul>{items}</ul>
         </div>
+      )}
+      {props.title === "Mes groupes" && props.menuOpened && (
+        <button className="btn_primary menu_button_add_group">
+          <i className="bi bi-plus-circle"/>
+          <span>Ajouter un groupe</span>
+        </button>
       )}
     </div>
   );

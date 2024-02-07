@@ -41,13 +41,13 @@ export default function Menu(): React.ReactNode {
   const ressourceItems: RessourceType[] = [
     {
       id: 1,
-      title: "Mon portfolio",
-      description: "Mon super portfolio",
+      title: "Bookmarks",
+      description: "Nouveau bookmark",
       image: null,
       file: null,
       link: {
         id: 1,
-        title: "portfolio",
+        title: "Bookmarks",
         url: "https://www.google.fr",
         created_at: new Date(),
         created_by_id: 1,
@@ -140,7 +140,7 @@ export default function Menu(): React.ReactNode {
           hasSubItems={ressourceItems.length > 0}
           subItems={ressourceItems}
         />
-        <button onClick={() => setMenuOpened(!menuOpened)}>
+        <button id="menu_wrapper_button" onClick={() => setMenuOpened(!menuOpened)}>
           <i
             className={
               !menuOpened
