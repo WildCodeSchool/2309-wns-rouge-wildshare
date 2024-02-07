@@ -106,6 +106,37 @@ export default function RecentAds({
         <h2>{title}</h2>
         <p>Prix total : {totalPrice} €</p>
         <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        <h2>{title}</h2>
+        <p>Prix total : {totalPrice} €</p>
+        <p>Nombre total de produits dans le panier : {itemBasket.length} </p>
+        
         
         {/* <section className={styles.recentAdsGrid}>
           {data?.items?.ads.map((item) => (

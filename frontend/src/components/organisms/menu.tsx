@@ -1,42 +1,107 @@
 import { useState } from "react";
 import MenuItem from "../molecules/menuItem";
-import {
-  SubFavRessourcesItemsTypes,
-  SubGroupsItemsTypes,
-} from "@/types/menu.types";
+import { GroupType } from "@/types/group.types";
+import { RessourceType } from "@/types/ressources.types";
 
 export default function Menu(): React.ReactNode {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
-  const subGroupsItems: SubGroupsItemsTypes[] = [
+  const groupItems: GroupType[] = [
     {
-      id: "1",
-      title: "Groupe 1",
+      id: 1,
+      name: "Groupe 1",
+      description: "Lorem ipsum",
+      token: 1234,
+      created_at: new Date(),
+      created_by_id: 1,
+      updated_at: new Date(),
+      update_by_id: 1,
     },
     {
-      id: "2",
-      title: "Nom de groupe super long pour voir le résultat",
+      id: 2,
+      name: "Nom de groupe super long pour voir le résultat",
+      description: "Lorem ipsum",
+      token: 1234,
+      created_at: new Date(),
+      created_by_id: 2,
+      updated_at: new Date(),
+      update_by_id: 2,
     },
     {
-      id: "3",
-      title: "Hello Groupe",
+      id: 3,
+      name: "Hello Groupe",
+      description: "Lorem ipsum",
+      token: 1234,
+      created_at: new Date(),
+      created_by_id: 1,
+      updated_at: new Date(),
+      update_by_id: 1,
     },
   ];
 
-  const subFavRessourcesItems: SubFavRessourcesItemsTypes[] = [
+  const ressourceItems: RessourceType[] = [
     {
-      id: "1",
-      title: "Ressources images",
-      link: "#",
+      id: 1,
+      title: "Mon portfolio",
+      description: "Mon super portfolio",
+      image: null,
+      file: null,
+      link: {
+        id: 1,
+        title: "portfolio",
+        url: "https://www.google.fr",
+        created_at: new Date(),
+        created_by_id: 1,
+        updated_at: new Date(),
+        update_by_id: 1,
+      },
+      isFavorite: true,
+      created_at: new Date(),
+      created_by_id: 1,
+      updated_at: new Date(),
+      update_by_id: 1,
     },
     {
-      id: "2",
-      title: "Ressources PDF",
-      link: "#",
+      id: 1,
+      title: "Mon portfolio",
+      description: "Mon super portfolio",
+      image: null,
+      file: null,
+      link: {
+        id: 1,
+        title: "portfolio",
+        url: "https://www.google.fr",
+        created_at: new Date(),
+        created_by_id: 1,
+        updated_at: new Date(),
+        update_by_id: 1,
+      },
+      isFavorite: true,
+      created_at: new Date(),
+      created_by_id: 1,
+      updated_at: new Date(),
+      update_by_id: 1,
     },
     {
-      id: "3",
-      title: "Ressources Excel",
-      link: "#",
+      id: 1,
+      title: "Road Trip Europe",
+      description: "Mon super plan de voyage en Europe",
+      image: null,
+      link: null,
+      file: {
+        id: 1,
+        title: "portfolio",
+        type: "pdf",
+        path: "https://www.google.fr",
+        created_at: new Date(),
+        created_by_id: 1,
+        updated_at: new Date(),
+        update_by_id: 1,
+      },
+      isFavorite: true,
+      created_at: new Date(),
+      created_by_id: 1,
+      updated_at: new Date(),
+      update_by_id: 1,
     },
   ];
 
@@ -63,8 +128,8 @@ export default function Menu(): React.ReactNode {
           focused={false}
           focusedClassName="bi bi-person-fill"
           className="bi bi-people"
-          hasSubItems={subGroupsItems.length > 0}
-          subItems={subGroupsItems}
+          hasSubItems={groupItems.length > 0}
+          subItems={groupItems}
         />
         <MenuItem
           title="Mes ressources favorites"
@@ -72,8 +137,8 @@ export default function Menu(): React.ReactNode {
           focused={false}
           className="bi bi-star"
           focusedClassName="bi bi-star-fill"
-          hasSubItems={subFavRessourcesItems.length > 0}
-          subItems={subFavRessourcesItems}
+          hasSubItems={ressourceItems.length > 0}
+          subItems={ressourceItems}
         />
         <button onClick={() => setMenuOpened(!menuOpened)}>
           <i

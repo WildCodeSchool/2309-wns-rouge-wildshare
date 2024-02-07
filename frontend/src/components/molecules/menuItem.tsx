@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { MenuItemTypes } from "@/types/menu.types";
+import { MenuItemType } from "@/types/menu.types";
 
-export default function MenuItem(props: MenuItemTypes): React.ReactNode {
+export default function MenuItem(props: MenuItemType): React.ReactNode {
   const [subMenuExpanded, setSubMenuExpanded] = useState<boolean>(false);
 
   const itemClassName = props.focused
@@ -15,6 +15,25 @@ export default function MenuItem(props: MenuItemTypes): React.ReactNode {
   const chevronClassName = subMenuExpanded
     ? "bi bi-chevron-up sub_menu_chevron"
     : "bi bi-chevron-down sub_menu_chevron";
+
+  const items = props.subItems?.map((item) => {
+    if ("name" in item) {
+      return (
+        <a href={`/group/${item.token}`} key={item.id}>
+          <li>{item.name}</li>
+        </a>
+      );
+    } else {
+      return (
+        <a
+          href={item.link === null ? item.file?.path : item.link?.url}
+          key={item.id}
+        >
+          <li>{item.link === null ? item.file?.title : item.link?.title}</li>
+        </a>
+      );
+    }
+  });
 
   return (
     <div className="menu_item_container">
@@ -32,13 +51,7 @@ export default function MenuItem(props: MenuItemTypes): React.ReactNode {
       </div>
       {props.menuOpened && props.hasSubItems && subMenuExpanded && (
         <div className="sub_menu_item">
-          <ul>
-            {props.subItems?.map((subItem) => (
-              <a href="#" key={subItem.id}>
-                <li>{subItem.title}</li>
-              </a>
-            ))}
-          </ul>
+          <ul>{items}</ul>
         </div>
       )}
     </div>
