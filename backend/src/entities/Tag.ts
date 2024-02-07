@@ -11,10 +11,8 @@ import {
   JoinColumn,
 } from "typeorm";
 import { MaxLength, MinLength } from "class-validator";
-import { Ad } from "./Ad";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 import { User } from "./User";
-import { isNullableType } from "graphql";
 
 @Entity()
 @ObjectType()
@@ -29,10 +27,6 @@ export class Tag extends BaseEntity {
   @MaxLength(100, { message: "titre trop long" })
   name!: string;
 
-  @ManyToOne(() => User, (users) => users.tags)
-  @Field(() => User)
-  user!: User;
-
   @Column({ type: "timestamp", nullable: false })
   @Field()
   created_at!: Date;
@@ -42,7 +36,7 @@ export class Tag extends BaseEntity {
     this.created_at = new Date();
   }
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User, (users) => users.tags)
   @JoinColumn()
   @Field(() => User)
   created_by!: User;
@@ -51,7 +45,7 @@ export class Tag extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   @Field()
   updated_by!: User;

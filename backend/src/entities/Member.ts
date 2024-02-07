@@ -4,6 +4,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   PrimaryColumn,
@@ -20,10 +21,6 @@ export class Member extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @ManyToOne(() => User, (user) => user.members)
-  @Field(() => User)
-  user!: User;
-
   @ManyToOne(() => Group, (group) => group.members)
   @Field(() => Group)
   group!: Group;
@@ -31,6 +28,10 @@ export class Member extends BaseEntity {
   @Column({ type: "timestamp" })
   @Field()
   last_visit!: Date;
+
+  @ManyToMany(() => Right, (rights) => rights.members)
+  @Field(() => [Right])
+  rights!: Right[];
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
@@ -41,13 +42,19 @@ export class Member extends BaseEntity {
     this.created_at = new Date();
   }
 
+  @ManyToOne(() => User, (users) => users.messages)
+  @JoinColumn()
+  @Field(() => User)
+  created_by!: User;
+
   @Column({ type: "timestamp", nullable: true })
   @Field()
   updated_at!: Date;
 
-  @ManyToMany(() => Right, (rights) => rights.members)
-  @Field(() => [Right])
-  rights!: Right[];
+  @ManyToOne(() => User)
+  @JoinColumn()
+  @Field(() => User)
+  updated_by!: User;
 }
 
 @InputType()
