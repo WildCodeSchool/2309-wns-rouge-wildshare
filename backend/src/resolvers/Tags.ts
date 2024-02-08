@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Mutation, Authorized } from "type-graphql";
 import { Tag, TagInput } from "../entities/Tag";
 import { validateDatas } from "../utils/validate";
-import { DummyTag } from "../dummyDatas";
+import { DummyTags } from "../dummyDatas";
 import { validate } from "class-validator";
 
 @Resolver(Tag)
@@ -43,27 +43,6 @@ export class TagResolver {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
   }
-
-  // @Mutation(() => [Tag])
-  // async populateTagTable(): Promise<Tag[] | null> {
-  //   for (let i = 0; i < DummyTag.length; i++) {
-  //     try {
-  //       const newTag = new Tag();
-  //       newTag.name = DummyTag[i].name;
-
-  //       const error = await validateDatas(newTag);
-
-  //       if (error.length > 0) {
-  //         throw new Error(`error occured ${JSON.stringify(error)}`);
-  //       } else {
-  //         const datas = await newTag.save();
-  //       }
-  //     } catch (error) {
-  //       throw new Error(`error occured ${JSON.stringify(error)}`);
-  //     }
-  //   }
-  //   return await this.getTags();
-  // }
 
   @Mutation(() => Tag)
   async deleteTag(
@@ -112,5 +91,27 @@ export class TagResolver {
     } catch (error) {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+  }
+
+  @Mutation(() => [Tag])
+  async populateTagTable(): Promise<Tag[] | null> {
+    for (let i = 0; i < DummyTags.length; i++) {
+      try {
+        const newTag = new Tag();
+        newTag.name = DummyTags[i].name;
+        newTag.created_by = DummyTags[i].created_by;
+
+        const error = await validateDatas(newTag);
+
+        if (error.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(error)}`);
+        } else {
+          const datas = await newTag.save();
+        }
+      } catch (error) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
+      }
+    }
+    return await this.getTags();
   }
 }

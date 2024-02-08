@@ -60,7 +60,7 @@ export class Member extends BaseEntity {
 @InputType()
 export class MemberInput {
   @Field(() => User)
-  user!: User;
+  created_by!: User;
 
   @Field(() => Group)
   group!: Group;

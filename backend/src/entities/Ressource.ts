@@ -37,7 +37,7 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "boolean", default: 0 })
   @Field()
-  is_favorite!: string;
+  is_favorite!: boolean;
 
   @OneToOne(() => Image)
   @JoinColumn()

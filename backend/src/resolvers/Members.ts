@@ -26,7 +26,7 @@ export class MemberResolver {
   ): Promise<Member> {
     try {
       const newMember = new Member();
-      newMember.user = data.user;
+      newMember.created_by = data.created_by;
       newMember.group = data.group;
       newMember.rights = data.rights;
       const error = await validate(newMember);

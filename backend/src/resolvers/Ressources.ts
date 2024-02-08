@@ -2,11 +2,12 @@ import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
 import { validateDatas } from "../utils/validate";
 import { validate } from "class-validator";
 import { Ressource, RessourceInput } from "../entities/Ressource";
+import { DummyRessources } from "../dummyDatas";
 
 @Resolver(Ressource)
 export class RessourceResolver {
   @Query(() => [Ressource])
-  async getAllRessource(): Promise<Ressource[]> {
+  async getAllRessources(): Promise<Ressource[]> {
     return await Ressource.find();
   }
 
@@ -75,5 +76,33 @@ export class RessourceResolver {
     } catch (error) {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+  }
+
+  @Mutation(() => [Ressource])
+  async populateRessourceTable(): Promise<Ressource[] | null> {
+    for (let i = 0; i < DummyRessources.length; i++) {
+      try {
+        const newRessource = new Ressource();
+        newRessource.title = DummyRessources[i].title;
+        newRessource.description = DummyRessources[i].description;
+        newRessource.is_favorite = DummyRessources[i].is_favorite;
+        newRessource.image_id = DummyRessources[i].image_id;
+        newRessource.file_id = DummyRessources[i].file_id;
+        newRessource.link_id = DummyRessources[i].link_id;
+        newRessource.created_by = DummyRessources[i].created_by;
+        newRessource.created_at = DummyRessources[i].created_at;
+
+        const error = await validate(newRessource);
+
+        if (error.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(error)}`);
+        } else {
+          const datas = await newRessource.save();
+        }
+      } catch (error) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
+      }
+    }
+    return await this.getAllRessources();
   }
 }
