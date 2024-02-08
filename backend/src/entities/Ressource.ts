@@ -23,13 +23,9 @@ export class Ressource extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 100, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: false })
   @Field()
   title!: string;
-
-  @Column({ type: "varchar", length: 100, nullable: false })
-  @Field()
-  type!: string;
 
   @Column({ type: "varchar", length: 255, nullable: false })
   @Field()
@@ -46,11 +42,11 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: false })
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User)
@@ -60,7 +56,7 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
@@ -85,10 +81,12 @@ export class Ressource extends BaseEntity {
 
 @InputType()
 export class RessourceCreateInput {
-
+  @Field()
+  title!: string;
 }
 
 @InputType()
 export class RessourceUpdateInput {
-
+  @Field()
+  title!: string;
 }

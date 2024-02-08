@@ -6,11 +6,12 @@ import {
 } from "../entities/Member";
 import { validateDatas } from "../utils/validate";
 import { validate } from "class-validator";
+import { DummyMembers } from "../dummyDatas";
 
 @Resolver(Member)
 export class MemberResolver {
   @Query(() => [Member])
-  async getAllMember(): Promise<Member[]> {
+  async getAllMembers(): Promise<Member[]> {
     return await Member.find();
   }
 
@@ -76,5 +77,29 @@ export class MemberResolver {
     } catch (error) {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+  }
+
+  @Mutation(() => [Member])
+  async populateMemberTable(): Promise<Member[] | null> {
+    for (let i = 0; i < DummyMembers.length; i++) {
+      try {
+        const newMember = new Member();
+        newMember.group = DummyMembers[i].group_id;
+        newMember.last_visit = DummyMembers[i].last_visit;
+        newMember.created_by = DummyMembers[i].created_by;
+        newMember.created_at = DummyMembers[i].created_at;
+
+        const error = await validate(newMember);
+
+        if (error.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(error)}`);
+        } else {
+          const datas = await newMember.save();
+        }
+      } catch (error) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
+      }
+    }
+    return await this.getAllMembers();
   }
 }

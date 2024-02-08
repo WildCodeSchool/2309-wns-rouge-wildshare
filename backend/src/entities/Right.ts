@@ -27,10 +27,12 @@ export class Right extends BaseEntity {
 
 @InputType()
 export class RightCreateInput {
-
+  @Field()
+  name!: string;
 }
 
 @InputType()
 export class RightUpdateInput {
-
+  @Field()
+  name!: string;
 }

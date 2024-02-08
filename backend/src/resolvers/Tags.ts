@@ -112,6 +112,6 @@ export class TagResolver {
         throw new Error(`error occured ${JSON.stringify(error)}`);
       }
     }
-    return await this.getTags();
+    return await this.getAllTags();
   }
 }

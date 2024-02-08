@@ -1,12 +1,5 @@
 require("dotenv").config();
-import {
-  Resolver,
-  Query,
-  Arg,
-  Mutation,
-  Ctx,
-  ID,
-} from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Ctx, ID } from "type-graphql";
 import { User, UserCreateInput, UserUpdateInput } from "../entities/User";
 import { validateDatas } from "../utils/validate";
 import * as argon2 from "argon2";
