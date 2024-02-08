@@ -1,5 +1,10 @@
 import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
-import { MemberCreateInput, Member, MemberUpdateInput } from "../entities/Member";
+import {
+  MemberCreateInput,
+  Member,
+  MemberUpdateInput,
+} from "../entities/Member";
+import { validateDatas } from "../utils/validate";
 import { validate } from "class-validator";
 
 @Resolver(Member)
