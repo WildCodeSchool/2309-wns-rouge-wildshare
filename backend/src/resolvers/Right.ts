@@ -21,7 +21,9 @@ export class RightResolver {
   }
 
   @Mutation(() => Right)
-  async createRight(@Arg("data", () => RightCreateInput) data: RightCreateInput): Promise<Right> {
+  async createRight(
+    @Arg("data", () => RightCreateInput) data: RightCreateInput
+  ): Promise<Right> {
     try {
       const newRight = new Right();
       const error = await validate(newRight);
@@ -48,6 +50,7 @@ export class RightResolver {
         Object.assign(right, data);
         const errors = await validate(right);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await right.save();
         }

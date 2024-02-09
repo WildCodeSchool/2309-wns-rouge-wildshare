@@ -50,6 +50,7 @@ export class GroupResolver {
         Object.assign(group, data);
         const errors = await validate(group);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await group.save();
         }

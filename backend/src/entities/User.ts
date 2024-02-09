@@ -27,23 +27,22 @@ export class User extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 255, nullable: false, unique: true }) // to false for prod
   @Field()
   email!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   hashed_password!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   lastname!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: true })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   firstname!: string;
 
   @OneToOne(() => Image)
-  @JoinColumn()
   @Field()
   image_id!: Image;
 
@@ -59,7 +58,7 @@ export class User extends BaseEntity {
   @Field()
   is_account_validated!: boolean;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
   created_at!: Date;
 

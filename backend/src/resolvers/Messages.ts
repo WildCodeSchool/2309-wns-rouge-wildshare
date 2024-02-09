@@ -56,6 +56,7 @@ export class MessageResolver {
         Object.assign(message, data);
         const errors = await validate(message);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await message.save();
         }

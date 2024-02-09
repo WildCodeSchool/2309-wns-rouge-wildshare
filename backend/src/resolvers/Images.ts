@@ -54,6 +54,7 @@ export class ImageResolver {
         Object.assign(image, data);
         const errors = await validate(image);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await image.save();
         }

@@ -23,6 +23,7 @@ import { Member } from "../entities/Member";
 import { Link } from "../entities/Link";
 import { Ressource } from "../entities/Ressource";
 import { Right } from "../entities/Right";
+import { validateDatas } from "./validate";
 
 export async function populateBdd() {
   try {
@@ -241,6 +242,30 @@ export async function populateBdd() {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
   }
+
+  // // add image to user
+  // for (let i = 2; i < DummyUsers.length; i++) {
+  //   console.log("i", i);
+  //   try {
+  //     const user = await User.findOneBy({ id: i });
+  //     console.log("user found", user?.image_id);
+  //     if (user) {
+  //       console.log("user", user.id, user.image_id);
+  //       Object.assign(user, { image_id: DummyUsers[i].image_id });
+  //       console.log("user after objectAss", user, user.image_id);
+  //       const error = await validate(user);
+  //       console.log("error", error);
+  //       if (error.length === 0) {
+  //         console.log("user before save", user);
+  //         const datas = await user.save();
+  //       } else {
+  //         throw new Error(`error occured ${JSON.stringify(error)}`);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     throw new Error(`error catch occured ${JSON.stringify(error)}`);
+  //   }
+  // }
 }
 
 // export const mutationPopulate = gql`

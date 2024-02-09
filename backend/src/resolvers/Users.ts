@@ -37,6 +37,7 @@ export class UserResolver {
         Object.assign(user, data);
         const errors = await validate(user);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await user.save();
         }

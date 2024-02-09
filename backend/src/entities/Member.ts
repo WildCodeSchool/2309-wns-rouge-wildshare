@@ -33,7 +33,7 @@ export class Member extends BaseEntity {
   @Field(() => [Right])
   rights!: Right[];
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
   created_at!: Date;
 

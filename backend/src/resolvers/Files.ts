@@ -50,6 +50,7 @@ export class FileResolver {
         Object.assign(file, data);
         const errors = await validate(file);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await file.save();
         }

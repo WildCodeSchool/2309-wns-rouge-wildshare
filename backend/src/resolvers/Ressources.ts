@@ -58,6 +58,7 @@ export class RessourceResolver {
         Object.assign(ressource, data);
         const errors = await validate(ressource);
         if (errors.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(errors)}`);
         } else {
           await ressource.save();
         }
