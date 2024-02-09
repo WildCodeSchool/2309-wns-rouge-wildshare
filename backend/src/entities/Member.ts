@@ -33,13 +33,13 @@ export class Member extends BaseEntity {
   @Field(() => [Right])
   rights!: Right[];
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User, (users) => users.messages)
@@ -49,7 +49,7 @@ export class Member extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
@@ -58,16 +58,13 @@ export class Member extends BaseEntity {
 }
 
 @InputType()
-export class MemberInput {
-  @Field(() => User)
-  user!: User;
-
-  @Field(() => Group)
-  group!: Group;
-
+export class MemberCreateInput {
   @Field({ nullable: true })
   last_visit!: Date;
+}
 
-  @Field(() => [Right])
-  rights!: Right[];
+@InputType()
+export class MemberUpdateInput {
+  @Field({ nullable: true })
+  last_visit!: Date;
 }

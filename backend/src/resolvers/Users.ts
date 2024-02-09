@@ -1,20 +1,17 @@
 require("dotenv").config();
+import { Resolver, Query, Arg, Mutation, Ctx, ID } from "type-graphql";
 import {
-  Resolver,
-  Query,
-  Arg,
-  Mutation,
-  Ctx,
-  Authorized,
-  ID,
-} from "type-graphql";
-import { User, InputUser, UserUpdateInput } from "../entities/User";
+  User,
+  UserCreateInput,
+  UserUpdateInput,
+  UserSignInInput,
+} from "../entities/User";
 import { validateDatas } from "../utils/validate";
 import * as argon2 from "argon2";
 import * as jwt from "jsonwebtoken";
 import Cookies from "cookies";
 import { ContextType, getUser } from "../middlewares/auth";
-import { DummyUser } from "../dummyDatas";
+import { DummyUsers } from "../dummyDatas";
 import { validate } from "class-validator";
 import { randomBytes } from "crypto";
 import { sendValidationEmail } from "../utils/sendemail";
@@ -41,20 +38,17 @@ export class UserResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => UserUpdateInput) data: UserUpdateInput
   ): Promise<User | null> {
-    try {
-      const user = await User.findOne({ where: { id: id } });
-      if (user) {
-        Object.assign(user, data);
-        const errors = await validate(user);
-        if (errors.length > 0) {
-        } else {
-          await user.save();
-        }
+    const user = await User.findOne({ where: { id: id } });
+    if (user) {
+      Object.assign(user, data);
+      const errors = await validate(user);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await user.save();
       }
-      return user;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return user;
   }
 
   @Mutation(() => User, { nullable: true })
@@ -73,7 +67,7 @@ export class UserResolver {
 
   @Mutation(() => User)
   async signUp(
-    @Arg("data", () => InputUser) data: InputUser
+    @Arg("data", () => UserCreateInput) data: UserCreateInput
   ): Promise<User | null> {
     const error = await validateDatas(data);
     if (error.length > 0) {
@@ -122,7 +116,7 @@ export class UserResolver {
   @Mutation(() => User, { nullable: true })
   async signIn(
     @Ctx() context: ContextType,
-    @Arg("data", () => InputUser) data: InputUser
+    @Arg("data", () => UserSignInInput) data: UserSignInInput
   ): Promise<User | null> {
     const existingUser = await User.findOneBy({ email: data.email });
     if (existingUser) {
@@ -167,20 +161,28 @@ export class UserResolver {
     return user;
   }
 
-  // @Mutation(() => User)
-  // async populateUserTable(): Promise<User | null> {
-  //   const error = await validateDatas(DummyUser);
-  //   if (error.length > 0) {
-  //     throw new Error(`error occured ${JSON.stringify(error)}`);
-  //   }
-  //   const existingUser = await User.findOneBy({ email: DummyUser.email });
-  //   if (existingUser) {
-  //     throw new Error(`User already exists`);
-  //   }
-  //   const newUser = new User();
-  //   newUser.email = DummyUser.email;
-  //   newUser.hashed_password = await argon2.hash(DummyUser.password);
-  //   await newUser.save();
-  //   return newUser;
-  // }
+  @Mutation(() => [User])
+  async populateUserTable(): Promise<User[] | null> {
+    for (let i = 0; i < DummyUsers.length; i++) {
+      try {
+        const newUser = new User();
+        newUser.email = DummyUsers[i].email;
+        newUser.hashed_password = await argon2.hash(DummyUsers[i].password);
+        newUser.lastname = DummyUsers[i].lastname;
+        newUser.firstname = DummyUsers[i].firstname;
+        newUser.created_at = DummyUsers[i].created_at;
+
+        const error = await validateDatas(newUser);
+
+        if (error.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(error)}`);
+        } else {
+          const datas = await newUser.save();
+        }
+      } catch (error) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
+      }
+    }
+    return await this.getAllUsers();
+  }
 }

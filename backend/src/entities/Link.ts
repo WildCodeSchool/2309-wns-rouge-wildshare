@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType, InputType } from "type-graphql";
 import {
   BaseEntity,
   BeforeInsert,
@@ -18,21 +18,21 @@ export class Link extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   title!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   url!: string;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User)
@@ -42,10 +42,21 @@ export class Link extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
   @Field(() => User)
   updated_by!: User;
+}
+@InputType()
+export class LinkCreateInput {
+  @Field()
+  title!: string;
+}
+
+@InputType()
+export class LinkUpdateInput {
+  @Field()
+  title!: string;
 }

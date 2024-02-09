@@ -20,21 +20,21 @@ export class Image extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   name!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   path!: string;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User)
@@ -44,7 +44,7 @@ export class Image extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
@@ -53,11 +53,17 @@ export class Image extends BaseEntity {
 }
 
 @InputType()
-export class ImageInput {
+export class ImageCreateInput {
   @Field()
   name!: string;
   @Field()
   path!: string;
-  @Field(() => User, { nullable: true })
-  user_id!: User;
+}
+
+@InputType()
+export class ImageUpdateInput {
+  @Field()
+  name!: string;
+  @Field()
+  path!: string;
 }

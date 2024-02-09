@@ -22,7 +22,7 @@ export class Group extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   name!: string;
 
@@ -30,17 +30,17 @@ export class Group extends BaseEntity {
   @Field()
   description!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   token!: string;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User)
@@ -50,7 +50,7 @@ export class Group extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
@@ -67,13 +67,13 @@ export class Group extends BaseEntity {
 }
 
 @InputType()
-export class GroupInput {
+export class GroupCreateInput {
   @Field()
   name!: string;
+}
+
+@InputType()
+export class GroupUpdateInput {
   @Field()
-  description!: string;
-  @Field()
-  token!: string;
-  // @Field(() => User)
-  // created_by!: User;
+  name!: string;
 }

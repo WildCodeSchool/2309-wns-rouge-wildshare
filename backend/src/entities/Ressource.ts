@@ -23,34 +23,30 @@ export class Ressource extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 100, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   title!: string;
 
-  @Column({ type: "varchar", length: 100, nullable: false })
-  @Field()
-  type!: string;
-
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   description!: string;
 
   @Column({ type: "boolean", default: 0 })
   @Field()
-  is_favorite!: string;
+  is_favorite!: boolean;
 
   @OneToOne(() => Image)
   @JoinColumn()
   @Field()
   image_id!: Image;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @ManyToOne(() => User)
@@ -60,7 +56,7 @@ export class Ressource extends BaseEntity {
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @ManyToOne(() => User)
   @JoinColumn()
@@ -84,4 +80,14 @@ export class Ressource extends BaseEntity {
 }
 
 @InputType()
-export class RessourceInput {}
+
+export class RessourceCreateInput {
+  @Field()
+  title!: string;
+}
+
+@InputType()
+export class RessourceUpdateInput {
+  @Field()
+  title!: string;
+}

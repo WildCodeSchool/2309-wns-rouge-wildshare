@@ -1,11 +1,12 @@
 import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
-import { GroupInput, Group } from "../entities/Group";
+import { Group, GroupCreateInput, GroupUpdateInput } from "../entities/Group";
 import { validate } from "class-validator";
+import { DummyGroups } from "../dummyDatas";
 
 @Resolver(Group)
 export class GroupResolver {
   @Query(() => [Group])
-  async getAllGroup(): Promise<Group[]> {
+  async getAllGroups(): Promise<Group[]> {
     return await Group.find();
   }
 
@@ -20,10 +21,11 @@ export class GroupResolver {
   }
 
   @Mutation(() => Group)
-  async createGroup(@Arg("data") { name }: GroupInput): Promise<Group> {
+  async createGroup(
+    @Arg("data", () => GroupCreateInput) data: GroupCreateInput
+  ): Promise<Group> {
     try {
       const newGroup = new Group();
-      newGroup.name = name;
       const error = await validate(newGroup);
 
       if (error.length > 0) {
@@ -40,22 +42,19 @@ export class GroupResolver {
   @Mutation(() => Group, { nullable: true })
   async updateGroup(
     @Arg("id", () => ID) id: number,
-    @Arg("data", () => GroupInput) data: GroupInput
+    @Arg("data", () => GroupUpdateInput) data: GroupUpdateInput
   ): Promise<Group | null> {
-    try {
-      const group = await Group.findOne({ where: { id: id } });
-      if (group) {
-        Object.assign(group, data);
-        const errors = await validate(group);
-        if (errors.length > 0) {
-        } else {
-          await group.save();
-        }
+    const group = await Group.findOne({ where: { id: id } });
+    if (group) {
+      Object.assign(group, data);
+      const errors = await validate(group);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await group.save();
       }
-      return group;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return group;
   }
 
   @Mutation(() => Group, { nullable: true })
@@ -70,5 +69,30 @@ export class GroupResolver {
     } catch (error) {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+  }
+
+  @Mutation(() => [Group])
+  async populateGroupTable(): Promise<Group[] | null> {
+    for (let i = 0; i < DummyGroups.length; i++) {
+      try {
+        const newGroup = new Group();
+        newGroup.name = DummyGroups[i].name;
+        newGroup.description = DummyGroups[i].description;
+        newGroup.token = DummyGroups[i].token;
+        newGroup.created_by = DummyGroups[i].created_by;
+        newGroup.created_at = DummyGroups[i].created_at;
+
+        const error = await validate(newGroup);
+
+        if (error.length > 0) {
+          throw new Error(`error occured ${JSON.stringify(error)}`);
+        } else {
+          const datas = await newGroup.save();
+        }
+      } catch (error) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
+      }
+    }
+    return await this.getAllGroups();
   }
 }

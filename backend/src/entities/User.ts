@@ -27,18 +27,18 @@ export class User extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ type: "varchar", length: 255, nullable: false, unique: true })
+  @Column({ type: "varchar", length: 255, nullable: false, unique: true }) // to false for prod
   @Field()
   email!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   hashed_password!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   lastname!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
+  @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
   firstname!: string;
 
@@ -55,22 +55,30 @@ export class User extends BaseEntity {
   @Field( () => Int)
   email_validation_token_expires!: number | null;
 
-  @Column({ type: "boolean", nullable: false })
+  @Field()
+  email_validation_token!: string;
+
+  @Column({ type: "timestamp", nullable: true })
+  @Field()
+  email_validation_token_expires!: number;
+
+
+  @Column({ type: "boolean", default: false })
   @Field()
   is_account_validated!: boolean;
 
-  @Column({ type: "timestamp", nullable: false })
+  @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
-  created_at!: number;
+  created_at!: Date;
 
   @BeforeInsert()
   updateDate() {
-    this.created_at = Date.now();
+    this.created_at = new Date();
   }
 
   @Column({ type: "timestamp", nullable: true })
   @Field()
-  updated_at!: number;
+  updated_at!: Date;
 
   @OneToMany(() => Tag, (tags) => tags.created_by)
   @Field(() => [Tag])
@@ -91,7 +99,7 @@ export class User extends BaseEntity {
 }
 
 @InputType()
-export class InputUser {
+export class UserCreateInput {
   @Field()
   @IsEmail()
   email!: string;
@@ -110,4 +118,12 @@ export class UserUpdateInput {
   lastname!: string;
   @Field({ nullable: true })
   firstname!: string;
+}
+
+@InputType()
+export class UserSignInInput {
+  @Field()
+  email!: string;
+  @Field()
+  password!: string;
 }
