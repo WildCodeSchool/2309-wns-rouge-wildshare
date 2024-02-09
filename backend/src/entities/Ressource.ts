@@ -80,6 +80,7 @@ export class Ressource extends BaseEntity {
 }
 
 @InputType()
+
 export class RessourceCreateInput {
   @Field()
   title!: string;

@@ -111,3 +111,11 @@ export class UserUpdateInput {
   @Field({ nullable: true })
   firstname!: string;
 }
+
+@InputType()
+export class UserSignInInput {
+  @Field()
+  email!: string;
+  @Field()
+  password!: string;
+}

@@ -55,6 +55,7 @@ export class File extends BaseEntity {
   updated_by!: User;
 }
 @InputType()
+
 export class FileCreateInput {
   @Field()
   name!: string;
@@ -65,3 +66,5 @@ export class FileUpdateInput {
   @Field()
   name!: string;
 }
+
+

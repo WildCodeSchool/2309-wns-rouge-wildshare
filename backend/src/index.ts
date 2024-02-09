@@ -1,42 +1,18 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { dataSource } from "./datasource";
-import { buildSchema } from "type-graphql";
-import { TagResolver } from "./resolvers/Tags";
-import { UserResolver } from "./resolvers/Users";
-import { ContextType, customAuthChecker } from "./middlewares/auth";
+import { ContextType } from "./middlewares/auth";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import express from "express";
 import http from "http";
 import cors from "cors";
-import { RightResolver } from "./resolvers/Right";
-import { RessourceResolver } from "./resolvers/Ressources";
-import { MessageResolver } from "./resolvers/Messages";
-import { MemberResolver } from "./resolvers/Members";
-import { LinkResolver } from "./resolvers/Links";
-import { ImageResolver } from "./resolvers/Images";
-import { GroupResolver } from "./resolvers/Groups";
-import { FileResolver } from "./resolvers/Files";
-import { User } from "./entities/User";
 import { populateBdd } from "./utils/populateBdd";
+import { getSchema, prodSchema, testSchema } from "./schema";
 
 const start = async () => {
-  const schema = await buildSchema({
-    resolvers: [
-      TagResolver,
-      UserResolver,
-      RightResolver,
-      RessourceResolver,
-      MessageResolver,
-      MemberResolver,
-      LinkResolver,
-      ImageResolver,
-      GroupResolver,
-      FileResolver,
-    ],
-    authChecker: customAuthChecker,
-  });
+  const schema = await getSchema(testSchema);
+
 
   const app = express();
   const httpServer = http.createServer(app);
