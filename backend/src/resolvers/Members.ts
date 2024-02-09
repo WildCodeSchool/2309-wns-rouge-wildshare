@@ -49,20 +49,16 @@ export class MemberResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => MemberUpdateInput) data: MemberUpdateInput
   ): Promise<Member | null> {
-    try {
-      const member = await Member.findOne({ where: { id: id } });
-      if (member) {
-        Object.assign(member, data);
-        const errors = await validate(member);
-        if (errors.length > 0) {
-        } else {
-          await member.save();
-        }
+    const member = await Member.findOne({ where: { id: id } });
+    if (member) {
+      Object.assign(member, data);
+      const errors = await validate(member);
+      if (errors.length > 0) {
+      } else {
+        await member.save();
       }
-      return member;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return member;
   }
 
   @Mutation(() => Member, { nullable: true })

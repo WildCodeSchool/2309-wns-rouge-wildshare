@@ -48,21 +48,17 @@ export class ImageResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => ImageUpdateInput) data: ImageUpdateInput
   ): Promise<Image | null> {
-    try {
-      const image = await Image.findOne({ where: { id: id } });
-      if (image) {
-        Object.assign(image, data);
-        const errors = await validate(image);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await image.save();
-        }
+    const image = await Image.findOne({ where: { id: id } });
+    if (image) {
+      Object.assign(image, data);
+      const errors = await validate(image);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await image.save();
       }
-      return image;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return image;
   }
 
   @Mutation(() => Image, { nullable: true })

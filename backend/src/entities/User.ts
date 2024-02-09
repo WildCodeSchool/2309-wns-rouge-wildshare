@@ -43,6 +43,7 @@ export class User extends BaseEntity {
   firstname!: string;
 
   @OneToOne(() => Image)
+  @JoinColumn()
   @Field()
   image_id!: Image;
 

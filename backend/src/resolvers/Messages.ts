@@ -50,21 +50,17 @@ export class MessageResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => MessageUpdateInput) data: MessageUpdateInput
   ): Promise<Message | null> {
-    try {
-      const message = await Message.findOne({ where: { id: id } });
-      if (message) {
-        Object.assign(message, data);
-        const errors = await validate(message);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await message.save();
-        }
+    const message = await Message.findOne({ where: { id: id } });
+    if (message) {
+      Object.assign(message, data);
+      const errors = await validate(message);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await message.save();
       }
-      return message;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return message;
   }
 
   @Mutation(() => Message, { nullable: true })

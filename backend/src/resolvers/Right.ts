@@ -44,21 +44,17 @@ export class RightResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => RightUpdateInput) data: RightUpdateInput
   ): Promise<Right | null> {
-    try {
-      const right = await Right.findOne({ where: { id: id } });
-      if (right) {
-        Object.assign(right, data);
-        const errors = await validate(right);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await right.save();
-        }
+    const right = await Right.findOne({ where: { id: id } });
+    if (right) {
+      Object.assign(right, data);
+      const errors = await validate(right);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await right.save();
       }
-      return right;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return right;
   }
 
   @Mutation(() => Right, { nullable: true })

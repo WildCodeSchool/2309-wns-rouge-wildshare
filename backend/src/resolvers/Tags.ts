@@ -69,27 +69,23 @@ export class TagResolver {
     id: number,
     @Arg("data", () => TagUpdateInput) data: TagUpdateInput
   ): Promise<Tag | null> {
-    try {
-      const tag = await Tag.findOne({
-        where: {
-          id: id,
-        },
-      });
+    const tag = await Tag.findOne({
+      where: {
+        id: id,
+      },
+    });
 
-      if (tag) {
-        Object.assign(tag, data, { id: id });
-        const error = await validateDatas(tag);
-        if (error.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(error)}`);
-        } else {
-          const datas = await Tag.save(tag);
-          return datas;
-        }
+    if (tag) {
+      Object.assign(tag, data, { id: id });
+      const error = await validateDatas(tag);
+      if (error.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(error)}`);
       } else {
-        throw new Error(`no ad found`);
+        const datas = await Tag.save(tag);
+        return datas;
       }
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
+    } else {
+      throw new Error(`no ad found`);
     }
   }
 

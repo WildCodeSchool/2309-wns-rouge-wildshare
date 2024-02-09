@@ -44,20 +44,16 @@ export class LinkResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => LinkUpdateInput) data: LinkUpdateInput
   ): Promise<Link | null> {
-    try {
-      const link = await Link.findOne({ where: { id: id } });
-      if (link) {
-        Object.assign(link, data);
-        const errors = await validate(link);
-        if (errors.length > 0) {
-        } else {
-          await link.save();
-        }
+    const link = await Link.findOne({ where: { id: id } });
+    if (link) {
+      Object.assign(link, data);
+      const errors = await validate(link);
+      if (errors.length > 0) {
+      } else {
+        await link.save();
       }
-      return link;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return link;
   }
 
   @Mutation(() => Link, { nullable: true })

@@ -44,21 +44,17 @@ export class GroupResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => GroupUpdateInput) data: GroupUpdateInput
   ): Promise<Group | null> {
-    try {
-      const group = await Group.findOne({ where: { id: id } });
-      if (group) {
-        Object.assign(group, data);
-        const errors = await validate(group);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await group.save();
-        }
+    const group = await Group.findOne({ where: { id: id } });
+    if (group) {
+      Object.assign(group, data);
+      const errors = await validate(group);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await group.save();
       }
-      return group;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return group;
   }
 
   @Mutation(() => Group, { nullable: true })

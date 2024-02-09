@@ -44,21 +44,17 @@ export class FileResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => FileUpdateInput) data: FileUpdateInput
   ): Promise<File | null> {
-    try {
-      const file = await File.findOne({ where: { id: id } });
-      if (file) {
-        Object.assign(file, data);
-        const errors = await validate(file);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await file.save();
-        }
+    const file = await File.findOne({ where: { id: id } });
+    if (file) {
+      Object.assign(file, data);
+      const errors = await validate(file);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await file.save();
       }
-      return file;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return file;
   }
 
   @Mutation(() => File, { nullable: true })

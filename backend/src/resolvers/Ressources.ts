@@ -52,21 +52,17 @@ export class RessourceResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => RessourceUpdateInput) data: RessourceUpdateInput
   ): Promise<Ressource | null> {
-    try {
-      const ressource = await Ressource.findOne({ where: { id: id } });
-      if (ressource) {
-        Object.assign(ressource, data);
-        const errors = await validate(ressource);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await ressource.save();
-        }
+    const ressource = await Ressource.findOne({ where: { id: id } });
+    if (ressource) {
+      Object.assign(ressource, data);
+      const errors = await validate(ressource);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await ressource.save();
       }
-      return ressource;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return ressource;
   }
 
   @Mutation(() => Ressource, { nullable: true })

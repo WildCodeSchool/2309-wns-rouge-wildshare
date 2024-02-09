@@ -31,21 +31,17 @@ export class UserResolver {
     @Arg("id", () => ID) id: number,
     @Arg("data", () => UserUpdateInput) data: UserUpdateInput
   ): Promise<User | null> {
-    try {
-      const user = await User.findOne({ where: { id: id } });
-      if (user) {
-        Object.assign(user, data);
-        const errors = await validate(user);
-        if (errors.length > 0) {
-          throw new Error(`error occured ${JSON.stringify(errors)}`);
-        } else {
-          await user.save();
-        }
+    const user = await User.findOne({ where: { id: id } });
+    if (user) {
+      Object.assign(user, data);
+      const errors = await validate(user);
+      if (errors.length > 0) {
+        throw new Error(`error occured ${JSON.stringify(errors)}`);
+      } else {
+        await user.save();
       }
-      return user;
-    } catch (error) {
-      throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+    return user;
   }
 
   @Mutation(() => User, { nullable: true })
