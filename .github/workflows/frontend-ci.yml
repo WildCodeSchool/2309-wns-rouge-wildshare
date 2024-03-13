@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker-image-frontend:
-    if: github.ref == 'refs/heads/52-ci---docker-image-creation'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
