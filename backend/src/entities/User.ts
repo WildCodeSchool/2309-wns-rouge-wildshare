@@ -20,6 +20,7 @@ import { Message } from "./Message";
 import { Ressource } from "./Ressource";
 import { Image } from "./Image";
 import { Group } from "./Group";
+import { File } from "./File";
 
 @Entity()
 @ObjectType()
@@ -80,6 +81,10 @@ export class User extends BaseEntity {
   @OneToMany(() => Tag, (tags) => tags.created_by)
   @Field(() => [Tag])
   tags!: Tag[];
+
+  @OneToMany(() => File, (files) => files.created_by_user)
+  @Field(() => [File])
+  files!: File[];
 
   @OneToMany(() => Member, (members) => members.created_by)
   @Field(() => [Member])
