@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker-image-frontend:
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/52-ci---docker-image-creation'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
