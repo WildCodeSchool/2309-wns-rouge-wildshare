@@ -49,10 +49,10 @@ export class File extends BaseEntity {
   @Field()
   updated_at!: Date;
 
-  @ManyToOne(() => User)
-  @JoinColumn()
+  @ManyToOne(() => User, (users) => users.files)
+  @JoinColumn({ name: "created_by" })
   @Field(() => User)
-  updated_by!: User;
+  updated_by_user!: User;
 }
 @InputType()
 export class FileCreateInput {
