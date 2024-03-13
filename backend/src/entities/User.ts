@@ -19,6 +19,7 @@ import { Member } from "./Member";
 import { Message } from "./Message";
 import { Ressource } from "./Ressource";
 import { Image } from "./Image";
+import { Group } from "./Group";
 
 @Entity()
 @ObjectType()
@@ -71,6 +72,10 @@ export class User extends BaseEntity {
   @Column({ type: "timestamp", nullable: true })
   @Field()
   updated_at!: Date;
+
+  @OneToMany(() => Group, (groups) => groups.created_by_user)
+  @Field(() => [Group])
+  groups!: Group[];
 
   @OneToMany(() => Tag, (tags) => tags.created_by)
   @Field(() => [Tag])
