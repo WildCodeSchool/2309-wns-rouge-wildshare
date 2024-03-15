@@ -4,5 +4,10 @@
   },
   "scripts": {
     "prepare": "husky"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "multer": "^1.4.5-lts.1",
+    "react-bootstrap": "^2.10.1"
   }
 }

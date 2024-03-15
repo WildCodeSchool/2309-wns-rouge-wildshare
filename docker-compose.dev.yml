@@ -6,14 +6,15 @@ services:
     command: npm start
     volumes:
       - ./backend/src/:/app/src/
+      - ./uploads:/app/uploads
     env_file:
       - ./.env
-  # front:
-  #   build: ./frontend
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - ./frontend/src/:/app/src/
+  front:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src/:/app/src/
   db:
     image: postgres
     ports:

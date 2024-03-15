@@ -8,7 +8,6 @@ const [resourceDescription, setResourceDescription] = useState("");
 const [resourceTags, setResourceTags] = useState<string[]>([]);
 
 
-
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 e.preventDefault();
 };

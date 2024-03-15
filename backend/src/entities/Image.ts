@@ -5,10 +5,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
-  OneToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
@@ -22,7 +19,11 @@ export class Image extends BaseEntity {
 
   @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
-  name!: string;
+  originalName!: string;
+
+  @Column({ type: "varchar", nullable: true }) // to false for prod
+  @Field()
+  mimetype: string | undefined;
 
   @Column({ type: "varchar", length: 255, nullable: true }) // to false for prod
   @Field()
