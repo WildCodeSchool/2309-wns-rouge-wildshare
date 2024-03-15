@@ -10,8 +10,8 @@ export default function SignUp(props: LayoutProps): React.ReactNode {
   const [password, setPassword] = useState("");
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
-
   const [failed, setFailed] = useState(false);
+  const [isSignUpSuccess, setIsSignUpSuccess] = useState(false); 
 
   const router = useRouter();
 
@@ -36,7 +36,8 @@ export default function SignUp(props: LayoutProps): React.ReactNode {
       setFailed(false);
       const response = await signUp();
       if (!error) {
-        router.replace("/sign-in");
+        setIsSignUpSuccess(true); 
+        // router.replace("/sign-in");
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +79,11 @@ export default function SignUp(props: LayoutProps): React.ReactNode {
             placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {isSignUpSuccess && ( 
+            <span className={SignStyles.successMessage}>
+              Un mail de validation a été envoyé sur votre adresse mail.
+            </span>
+          )}
           {failed && (
             <span className={SignStyles.errorMessage}>
               Une erreur est survenue
