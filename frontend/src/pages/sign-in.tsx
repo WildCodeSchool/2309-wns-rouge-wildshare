@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+/*import React, { FormEvent, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { SIGN_IN, MY_PROFILE } from "@/Request/user";
 import SignStyles from "@/styles/Sign.module.css";
@@ -73,4 +73,4 @@ export default function SignIn() {
       {errorMessage && <p className={SignStyles.error}>{errorMessage}</p>}
     </div>
   );
-}
+}*/
