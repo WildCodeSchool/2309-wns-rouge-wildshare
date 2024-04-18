@@ -3,7 +3,9 @@ import Tag from "../atoms/tag";
 import LikeBtn from "../atoms/likeBtn";
 import Avatar from "../atoms/avatar";
 
-export default function ressourceCard() {
+export default function ressourceCard(): React.ReactNode {
+
+  
   return (
     <>
       <div className="card card-width">
