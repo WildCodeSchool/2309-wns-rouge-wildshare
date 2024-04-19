@@ -1,7 +1,7 @@
 export type ExtraTypes = {
-  created_at: Date;
-  created_by_id?: number;
-  updated_at: Date;
+  created_at?: Date;
+  created_by_id?: number | null;
+  updated_at?: Date;
   update_by_id?: number;
 };
 
