@@ -5,7 +5,7 @@ export type UserType = {
   email: string;
   lastname: string;
   firstname: string;
-  image: ImageType | null;
+  imageId: ImageType;
 };
 
 export type UserUpdateType = {

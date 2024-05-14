@@ -1,7 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import { UserType } from "@/types/user.types";
 
-export default function avatar() {
+
+export type UserProps = {
+  user: UserType;
+};
+
+export default function avatar({ user}: UserProps): React.ReactNode {
   return (
     <div className="d-flex aligns-items-center">
       <div className="flex-shrink-0 px-4 py-2">
@@ -9,12 +15,12 @@ export default function avatar() {
           width={42}
           height={42}
           src={"/assets/avatars/jake-nackos.jpg"}
-          alt="jake nackos"
+          alt=""
           className="mr-3 rounded-circle"
         />
       </div>
       <div className="d-flex aligns-items-center flex-grow-1 ">
-        <p className="my-auto">Jaky Nackos</p>
+        <p className="my-auto">{`${user.firstname} ${user.lastname}`}</p>
       </div>
     </div>
   );

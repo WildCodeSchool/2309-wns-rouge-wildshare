@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import { useMutation, useQuery } from "@apollo/client";
 import { MY_PROFILE, UPDATE_USER } from "@/Request/user";
-import { UserType, UserUpdateType } from "@/types/user.type";
+import { UserType, UserUpdateType } from "@/types/user.types";
 
 export default function profile() {
   const [error, setError] = useState<boolean>(false);

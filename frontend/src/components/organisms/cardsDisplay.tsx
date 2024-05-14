@@ -1,24 +1,20 @@
 import React from "react";
 import RessourceCard from "../molecules/ressourceCard";
+import { RessourceType } from '@/types/ressources.types';
+import { useQuery } from "@apollo/client";
+import { GET_ALL_RESSOURCES } from "@/Request/ressource";
 
-export default function cardsDisplay({ resourcesData }: { resourcesData: any[] }) {
+export type ResourceProps = {
+  ressources: RessourceType;
+};
+
+export default function CardsDisplay(): React.ReactNode {
+  const { data, error } = useQuery(GET_ALL_RESSOURCES);
+console.log(data)
   return (
-    <div className="container">
-      {resourcesData.map((item) => (
-        <RessourceCard
-          key={item.id}
-          title={item.title}
-          image={item.image}
-          description={item.description}
-          isFavorite={item.isFavorite}
-          file={item.file}
-          link={item.link}
-          id={0}
-          created_by_id={item.created_by_id}
-          created_at={item.created_at}
-          updated_at={item.created_at}
-          update_by_id={item.update_by_id}
-        />
+    <div>
+      {data?.getAllRessources.map((ressource: RessourceType) => (
+        <RessourceCard key={ressource.id} ressource={ressource} />
       ))}
     </div>
   );
