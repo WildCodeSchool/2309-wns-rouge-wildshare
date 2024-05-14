@@ -12,7 +12,14 @@ import { ContextType, getUser } from "../middlewares/auth";
 export class RessourceResolver {
   @Query(() => [Ressource])
   async getAllRessources(): Promise<Ressource[]> {
-    return await Ressource.find();
+    return await Ressource.find({
+      relations: {
+        image_id: true,
+        created_by_user: true,
+        file_id: true,
+        link_id: true,
+    }}
+    );
   }
 
   @Query(() => Ressource)

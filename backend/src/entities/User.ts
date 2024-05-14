@@ -44,7 +44,7 @@ export class User extends BaseEntity {
 
   @OneToOne(() => Image)
   @JoinColumn()
-  @Field(() => Image)
+  @Field(() => Image, { nullable: true })
   image_id!: Image;
 
   @Column({ type: "varchar", length: 255, nullable: true })
