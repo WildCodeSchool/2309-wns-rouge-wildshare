@@ -12,7 +12,7 @@ export default function CardsDisplay(): React.ReactNode {
   const { data, error } = useQuery(GET_ALL_RESSOURCES);
 console.log(data)
   return (
-    <div>
+    <div className="cards-container">
       {data?.getAllRessources.map((ressource: RessourceType) => (
         <RessourceCard key={ressource.id} ressource={ressource} />
       ))}
