@@ -8,11 +8,13 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToMany,
 } from "typeorm";
 import { User } from "./User";
 import { Link } from "./Link";
 import { File } from "./File";
 import { Image } from "./Image";
+import { Group } from "./Group";
 @Entity()
 @ObjectType()
 export class Ressource extends BaseEntity {
@@ -69,6 +71,10 @@ export class Ressource extends BaseEntity {
   @JoinColumn()
   @Field(() => Link, { nullable: true })
   link_id!: Link;
+
+  @ManyToOne(() => Group, (group) => group.ressources)
+  @Field(() => Group, {nullable: true})
+  group_id!: Group;
 }
 
 @InputType()

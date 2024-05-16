@@ -48,7 +48,7 @@ export class RessourceResolver {
       if (!user) {
         throw new Error(`error`);
       } else {
-        const ressource = await Ressource.find({
+        const ressources = await Ressource.find({
           where: { created_by_user: { id: user.id } },
           relations: {
             image_id: true,
@@ -57,11 +57,31 @@ export class RessourceResolver {
             link_id: true,
           },
         });
-        return ressource;
+        return ressources;
       }
     } catch (error) {
       throw new Error(`error occured ${JSON.stringify(error)}`);
     }
+  }
+
+  @Query(() => [Ressource]) 
+  async getRessourcesByGroupId( 
+    @Arg("groupId",() => ID) groupId: number):
+     Promise<Ressource[]> {
+    try {
+      const ressources = await Ressource.find({
+        where: { group_id: { id: groupId }},
+        relations: { 
+          group_id: true
+        }
+        });
+      if (!ressources) {
+      throw new Error("ressource not found");
+    }
+    return ressources;
+  } catch (error) {
+    throw new Error(`error occured ${JSON.stringify(error)}`);
+  }
   }
 
   @Mutation(() => Ressource)

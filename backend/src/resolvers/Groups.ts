@@ -12,6 +12,7 @@ import { Member } from "../entities/Member";
 import { validate } from "class-validator";
 import { DummyGroups } from "../dummyDatas";
 import { ContextType } from "../middlewares/auth";
+import { Ressource } from "../entities/Ressource";
 
 @Resolver(Group)
 export class GroupResolver {

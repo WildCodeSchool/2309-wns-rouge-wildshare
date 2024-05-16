@@ -8,7 +8,7 @@ import { GroupType } from "@/types/group.types";
 import { LinkMenuType } from "@/types/menu.types";
 import ModalComponent from "./modal";
 import CreateGroupForm from "../createGroupForm";
-import { UserType } from "@/types/user.type";
+import { UserType } from "@/types/user.types";
 
 export default function Menu(): React.ReactNode {
   const [menuOpened, setMenuOpened] = useState<boolean>(false);

@@ -1,35 +1,30 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_RESSOURCES = gql`
-  query GetAllRessources {
-    getAllRessources {
-        created_at
-        created_by_user {
-          id
-          lastname
-          firstname
-          image_id {
-            path
-            id
-            name
-          }
-        }
-        image_id {
-          path
-          id
-        }
-        description
-        file_id {
-          id
-          path
-        }
+export const GET_RESSOURCES_BY_GROUP_ID = gql`
+query GetRessourcesByGroupId($groupId: ID!) {
+  getRessourcesByGroupId(groupId: $groupId) {
+    id
+    title
+    description
+    is_favorite
+    image_id {
+      id
+      path
+      name
+    }
+    created_by_user {
+      id
+      lastname
+      firstname
+      image_id {
         id
-        is_favorite
-        link_id {
-          id
-          url
-        }
-        title
+        name
+        path
       }
     }
-  `;
+    group_id {
+      id
+    }
+  }
+}
+`;

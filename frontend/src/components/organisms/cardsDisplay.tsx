@@ -2,18 +2,17 @@ import React from "react";
 import RessourceCard from "../molecules/ressourceCard";
 import { RessourceType } from '@/types/ressources.types';
 import { useQuery } from "@apollo/client";
-import { GET_ALL_RESSOURCES } from "@/Request/ressource";
+import { GET_RESSOURCES_BY_GROUP_ID } from "@/requests/ressource";
 
-export type ResourceProps = {
-  ressources: RessourceType;
+export type RessourceProps = {
+  ressources: RessourceType[];
 };
 
-export default function CardsDisplay(): React.ReactNode {
-  const { data, error } = useQuery(GET_ALL_RESSOURCES);
-console.log(data)
+export default function CardsDisplay(props: RessourceProps): React.ReactNode {
+  
   return (
     <div className="cards-container">
-      {data?.getAllRessources.map((ressource: RessourceType) => (
+      {props.ressources.map((ressource: RessourceType) => (
         <RessourceCard key={ressource.id} ressource={ressource} />
       ))}
     </div>
