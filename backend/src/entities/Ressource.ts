@@ -72,7 +72,7 @@ export class Ressource extends BaseEntity {
 
   @OneToOne(() => Link)
   @JoinColumn()
-  @Field(() => Link)
+  @Field(() => Link, { nullable: true })
   link_id!: Link;
 
   @ManyToOne(() => Group, (group) => group.ressources)
