@@ -93,3 +93,11 @@ export class RessourceUpdateInput {
   @Field()
   title!: string;
 }
+
+@InputType()
+export class RessourcesOrderByInput {
+  @Field({ nullable: true })
+  orderByTitle!: string;
+  @Field({ nullable: true })
+  orderByCreated_at!: string;
+}

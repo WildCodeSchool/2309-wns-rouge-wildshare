@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "@/components/organisms/layout";
 import ModalComponent from "@/components/organisms/modal";
 import CreateRessourcesForm from "@/components/organisms/createRessourcesForm";
-import { useQuery, NetworkStatus } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { RessourceType } from "@/types/ressources.types";
 import { GET_ALL_RESSOURCES_FROM_ONE_USER } from "@/requests/ressources";
 import CardsDisplay from "@/components/organisms/cardsDisplay";
@@ -15,6 +15,8 @@ import { InView } from "react-intersection-observer";
 export default function Dashboard(): React.ReactNode {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
+  const [titleSort, setTitleSort] = useState<string>("ASC");
+  const [dateSort, setDateSort] = useState<string>("ASC");
   const [, setSkip] = useState<number>(0);
   const [take] = useState<number>(10);
 
@@ -27,19 +29,17 @@ export default function Dashboard(): React.ReactNode {
     error: errorRessources,
     loading: loadingRessources,
     fetchMore,
-    networkStatus,
   } = useQuery<{ items: RessourceType[] }>(GET_ALL_RESSOURCES_FROM_ONE_USER, {
-    variables: { skip: 0, take: take },
+    variables: {
+      skip: 0,
+      take: take,
+      orderBy: {
+        orderByCreated_at: dateSort,
+        orderByTitle: titleSort,
+      },
+    },
     notifyOnNetworkStatusChange: true,
   });
-
-  const isFetchingMore = networkStatus === NetworkStatus.fetchMore;
-
-  useEffect(() => {
-    if (dataRessources && !isFetchingMore) {
-      setSkip(dataRessources.items.length);
-    }
-  }, [dataRessources, isFetchingMore]);
 
   const handleFetchMore = async (inView: boolean) => {
     if (inView && dataRessources?.items.length) {
@@ -109,12 +109,31 @@ export default function Dashboard(): React.ReactNode {
             />
           )}
           <div className="d-flex flex-row align-items-center justify-content-center gap-2 sort_buttons_container ">
-            <span>TRIER</span>
-            <button className="btn_sort">
-              <i className="bi bi-sort-down"></i>
+            <span>Trier par:</span>
+            <button
+              className="btn_sort"
+              onClick={() =>
+                titleSort === "ASC" ? setTitleSort("DESC") : setTitleSort("ASC")
+              }
+            >
+              {titleSort === "ASC" ? (
+                <i className="bi bi-sort-alpha-down"></i>
+              ) : (
+                <i className="bi bi-sort-alpha-up"></i>
+              )}
             </button>
-            <button className="btn_sort">
-              <i className="bi bi-sort-up"></i>
+            <button
+              className="btn_sort"
+              onClick={() =>
+                dateSort === "ASC" ? setDateSort("DESC") : setDateSort("ASC")
+              }
+            >
+              Date
+              {dateSort === "ASC" ? (
+                <i className="bi bi-sort-down"></i>
+              ) : (
+                <i className="bi bi-sort-up"></i>
+              )}
             </button>
           </div>
         </div>

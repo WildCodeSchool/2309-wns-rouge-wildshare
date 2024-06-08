@@ -12,6 +12,7 @@ import { validate } from "class-validator";
 import {
   Ressource,
   RessourceCreateInput,
+  RessourcesOrderByInput,
   RessourceUpdateInput,
 } from "../entities/Ressource";
 import { ContextType } from "../middlewares/auth";
@@ -46,6 +47,8 @@ export class RessourceResolver {
   @Query(() => [Ressource])
   async getRessourcesByUser(
     @Ctx() context: ContextType,
+    @Arg("orderBy", () => RessourcesOrderByInput, { nullable: true })
+    orderBy?: RessourcesOrderByInput,
     @Arg("skip", () => Int, { nullable: true }) skip?: number,
     @Arg("take", () => Int, { nullable: true }) take?: number
   ): Promise<Ressource[]> {
@@ -53,6 +56,21 @@ export class RessourceResolver {
       if (!context.user) {
         throw new Error(`error`);
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const queryOrderBy: any = {};
+        if (
+          orderBy?.orderByTitle &&
+          ["ASC", "DESC"].includes(orderBy?.orderByTitle)
+        ) {
+          queryOrderBy.title = orderBy?.orderByTitle;
+        }
+
+        if (
+          orderBy?.orderByCreated_at &&
+          ["ASC", "DESC"].includes(orderBy?.orderByCreated_at)
+        ) {
+          queryOrderBy.created_at = orderBy?.orderByCreated_at;
+        }
         const ressource = await Ressource.find({
           where: { created_by_user: { id: context.user.id } },
           relations: {
@@ -61,10 +79,7 @@ export class RessourceResolver {
             file_id: true,
             link_id: true,
           },
-          order: {
-            title: "ASC",
-            created_at: "ASC",
-          },
+          order: queryOrderBy,
           skip: skip,
           take: take,
         });
@@ -78,10 +93,27 @@ export class RessourceResolver {
   @Query(() => [Ressource])
   async getRessourcesByGroupId(
     @Arg("groupId", () => ID) groupId: number,
+    @Arg("orderBy", () => RessourcesOrderByInput, { nullable: true })
+    orderBy?: RessourcesOrderByInput,
     @Arg("skip", () => Int, { nullable: true }) skip?: number,
     @Arg("take", () => Int, { nullable: true }) take?: number
   ): Promise<Ressource[]> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const queryOrderBy: any = {};
+      if (
+        orderBy?.orderByTitle &&
+        ["ASC", "DESC"].includes(orderBy?.orderByTitle)
+      ) {
+        queryOrderBy.title = orderBy?.orderByTitle;
+      }
+
+      if (
+        orderBy?.orderByCreated_at &&
+        ["ASC", "DESC"].includes(orderBy?.orderByCreated_at)
+      ) {
+        queryOrderBy.created_at = orderBy?.orderByCreated_at;
+      }
       const ressources = await Ressource.find({
         where: { group_id: { id: groupId } },
         relations: {
@@ -91,10 +123,7 @@ export class RessourceResolver {
           link_id: true,
           group_id: true,
         },
-        order: {
-          title: "ASC",
-          created_at: "ASC",
-        },
+        order: queryOrderBy,
         skip: skip,
         take: take,
       });

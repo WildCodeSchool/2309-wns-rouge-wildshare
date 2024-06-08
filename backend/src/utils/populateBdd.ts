@@ -62,7 +62,6 @@ export async function populateBdd() {
       newUser.firstname = faker.person.firstName();
       newUser.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
       newUser.is_account_validated = true;
       //ajout relation avatar a la fin de la population de données, car les images ne sont pas encore crées ici.
@@ -88,7 +87,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)]; // Randomly select a user
       newImage.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newImage);
@@ -113,7 +111,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)]; // Randomly select a user
       newAvatar.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newAvatar);
@@ -159,7 +156,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)];
       newGroup.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newGroup);
@@ -213,13 +209,11 @@ export async function populateBdd() {
         createdGroups[Math.floor(Math.random() * createdGroups.length)];
       newMember.last_visit = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
       newMember.user =
         createdUsers[Math.floor(Math.random() * createdUsers.length)];
       newMember.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newMember);
@@ -245,7 +239,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)];
       newMessage.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
       const error = await validate(newMessage);
 
@@ -269,7 +262,7 @@ export async function populateBdd() {
   //       createdUsers[Math.floor(Math.random() * createdUsers.length)];
   //     newFile.created_at = faker.date.recent({
   //       days: 100,
-  //       refDate: Date.now(),
+  //
   //     });
 
   //     const error = await validate(newFile);
@@ -291,7 +284,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)];
       newLink.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newLink);
@@ -321,7 +313,6 @@ export async function populateBdd() {
         createdUsers[Math.floor(Math.random() * createdUsers.length)];
       newRessource.created_at = faker.date.recent({
         days: 100,
-        refDate: Date.now(),
       });
 
       const error = await validate(newRessource);
