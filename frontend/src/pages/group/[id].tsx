@@ -1,5 +1,5 @@
 import Layout from "@/components/organisms/layout";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import CardsDisplay from "@/components/organisms/cardsDisplay";
 import { GET_RESSOURCES_BY_GROUP_ID } from "@/requests/ressources";
