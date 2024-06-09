@@ -3,7 +3,7 @@ import Image from "next/image";
 import { UserType } from "@/types/user.types";
 import { DateTime } from "luxon";
 
-export default function avatar(props: { date: string; user: UserType }) {
+export default function avatar(props: { date: Date; user: UserType }) {
   return (
     <div className="d-flex aligns-items-center py-2 ">
       <div className="d-flex flex-row align-items-center py-2">

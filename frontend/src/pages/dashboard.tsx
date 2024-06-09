@@ -17,6 +17,7 @@ export default function Dashboard(): React.ReactNode {
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
   const [titleSort, setTitleSort] = useState<string>("ASC");
   const [dateSort, setDateSort] = useState<string>("ASC");
+  const [searchTitle, setSearchTitle] = useState<string>("");
   const [, setSkip] = useState<number>(0);
   const [take] = useState<number>(10);
 
@@ -33,14 +34,14 @@ export default function Dashboard(): React.ReactNode {
     variables: {
       skip: 0,
       take: take,
+      where: { title: searchTitle },
       orderBy: {
-        orderByCreated_at: dateSort,
-        orderByTitle: titleSort,
+        created_at: dateSort,
+        title: titleSort,
       },
     },
     notifyOnNetworkStatusChange: true,
   });
-
   const handleFetchMore = async (inView: boolean) => {
     if (inView && dataRessources?.items.length) {
       try {
@@ -76,7 +77,6 @@ export default function Dashboard(): React.ReactNode {
       setSelectedTags([...selectedTags, tag]);
     }
   }
-
   return (
     <Layout title={"Dashboard"}>
       <div className="ressources_main_container">
@@ -84,7 +84,11 @@ export default function Dashboard(): React.ReactNode {
           <h1>Mon Dashboard</h1>
           <div className="d-flex justify-content-start align-items-center search_input_container">
             <i className="bi bi-search"></i>
-            <input type="text" placeholder="Rechercher" />
+            <input
+              type="text"
+              placeholder="Rechercher par titre"
+              onChange={(e) => setSearchTitle(e.target.value)}
+            />
           </div>
         </div>
         <div className="add_ressources_button">
@@ -128,12 +132,12 @@ export default function Dashboard(): React.ReactNode {
                 dateSort === "ASC" ? setDateSort("DESC") : setDateSort("ASC")
               }
             >
-              Date
               {dateSort === "ASC" ? (
-                <i className="bi bi-sort-down"></i>
+                <i className="bi bi-arrow-down"></i>
               ) : (
-                <i className="bi bi-sort-up"></i>
+                <i className="bi bi-arrow-up"></i>
               )}
+              Date
             </button>
           </div>
         </div>
@@ -142,7 +146,7 @@ export default function Dashboard(): React.ReactNode {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         )}
-        {errorRessources && <p>An error occured, please contact 911</p>}
+        {errorRessources && <p>{errorRessources.message}</p>}
         {dataRessources && <CardsDisplay ressources={dataRessources?.items} />}
         <InView onChange={handleFetchMore} threshold={0.5}>
           <div className="spinner"></div>

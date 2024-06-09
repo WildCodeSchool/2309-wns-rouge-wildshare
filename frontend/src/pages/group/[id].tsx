@@ -44,6 +44,7 @@ export default function GroupDashboard(): React.ReactNode {
   const [take] = useState<number>(10);
   const [titleSort, setTitleSort] = useState<string>("ASC");
   const [dateSort, setDateSort] = useState<string>("ASC");
+  const [searchTitle, setSearchTitle] = useState<string>("");
 
   const { data: dataGroup } = useQuery<{ item: GroupType }>(GET_ONE_GROUP, {
     variables: {
@@ -63,9 +64,10 @@ export default function GroupDashboard(): React.ReactNode {
       groupId,
       skip: 0,
       take: take,
+      whereGroup: { group_id: groupId, title: searchTitle },
       orderBy: {
-        orderByCreated_at: dateSort,
-        orderByTitle: titleSort,
+        created_at: dateSort,
+        title: titleSort,
       },
     },
   });
@@ -120,6 +122,16 @@ export default function GroupDashboard(): React.ReactNode {
             <h2>Group Not Found</h2>
           </>
         )}
+        
+          <div className="d-flex justify-content-start align-items-center search_input_container">
+            <i className="bi bi-search"></i>
+            <input
+              type="text"
+              placeholder="Rechercher par titre"
+              onChange={(e) => setSearchTitle(e.target.value)}
+            />
+          
+        </div>
         <div className="add_ressources_button">
           <h2>Ressources</h2>
           <button
@@ -178,7 +190,7 @@ export default function GroupDashboard(): React.ReactNode {
                   <span className="visually-hidden">Loading...</span>
                 </Spinner>
               )}
-              {errorRessources && <p>An error occured, please contact 911</p>}
+              {errorRessources && <p>{errorRessources.message}</p>}
               {dataRessources && (
                 <CardsDisplay ressources={dataRessources?.items} />
               )}

@@ -42,10 +42,12 @@ export class Ressource extends BaseEntity {
   @Field()
   created_at!: Date;
 
-  @BeforeInsert()
-  updateDate() {
-    this.created_at = new Date();
-  }
+  // TODO : Décommenté pour la mise en production !!!
+
+  // @BeforeInsert()
+  // updateDate() {
+  //   this.created_at = new Date();
+  // }
 
   @ManyToOne(() => User, (user) => user.ressources_creation)
   @JoinColumn({ name: "created_by" })
@@ -95,9 +97,24 @@ export class RessourceUpdateInput {
 }
 
 @InputType()
+export class RessourcesWhereInput {
+  @Field(() => ID, { nullable: true })
+  created_by_user!: number;
+  @Field({ nullable: true })
+  title!: string;
+}
+
+@InputType()
+export class RessourcesWhereGroupInput {
+  @Field(() => ID)
+  group_id!: number;
+  @Field({ nullable: true })
+  title?: string;
+}
+@InputType()
 export class RessourcesOrderByInput {
   @Field({ nullable: true })
-  orderByTitle!: string;
+  created_at?: "ASC" | "DESC";
   @Field({ nullable: true })
-  orderByCreated_at!: string;
+  title?: "ASC" | "DESC";
 }
