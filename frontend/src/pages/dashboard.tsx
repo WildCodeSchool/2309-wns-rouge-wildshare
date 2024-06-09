@@ -45,7 +45,6 @@ export default function Dashboard(): React.ReactNode {
     },
     notifyOnNetworkStatusChange: true,
   });
-
   const handleFetchMore = async (inView: boolean) => {
     if (inView && dataRessources?.items.length) {
       try {
