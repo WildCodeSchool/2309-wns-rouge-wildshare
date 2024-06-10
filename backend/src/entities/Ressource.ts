@@ -42,12 +42,12 @@ export class Ressource extends BaseEntity {
   @Field()
   created_at!: Date;
 
-  // TODO : Décommenté pour la mise en production !!!
-
-  // @BeforeInsert()
-  // updateDate() {
-  //   this.created_at = new Date();
-  // }
+  @BeforeInsert()
+  updateDate() {
+    if (!this.created_at) {
+      this.created_at = new Date();
+    }
+  }
 
   @ManyToOne(() => User, (user) => user.ressources_creation)
   @JoinColumn({ name: "created_by" })
