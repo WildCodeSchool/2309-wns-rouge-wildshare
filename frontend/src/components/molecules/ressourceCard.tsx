@@ -23,7 +23,6 @@ export default function RessourceCard(
     "https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   );
   useEffect(() => {
-    console.log(ressource.image_id);
     if (ressource.image_id && ressource.image_id.path.includes("://")) {
       setRessourceImageSrc(ressource.image_id.path);
     } else if (ressource.image_id) {

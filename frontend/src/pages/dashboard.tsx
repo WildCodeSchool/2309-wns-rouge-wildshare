@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/components/organisms/layout";
 import ModalComponent from "@/components/organisms/modal";
 import CreateRessourcesForm from "@/components/organisms/createRessourcesForm";
@@ -15,7 +15,10 @@ import { InView } from "react-intersection-observer";
 export default function Dashboard(): React.ReactNode {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
-  const [titleSort, setTitleSort] = useState<string>("ASC");
+  const [titleSort, setTitleSort] = useState<string>("");
+  const [titleSortClass, setTitleSortClass] =
+    useState<string>("bi bi-sort-down");
+  const [dateSortClass, setDateSortClass] = useState<string>("bi bi-sort-down");
   const [dateSort, setDateSort] = useState<string>("ASC");
   const [searchTitle, setSearchTitle] = useState<string>("");
   const [, setSkip] = useState<number>(0);
@@ -77,6 +80,27 @@ export default function Dashboard(): React.ReactNode {
       setSelectedTags([...selectedTags, tag]);
     }
   }
+
+  useEffect(() => {
+    if (dateSort === "ASC" || dateSort === "DESC") {
+      setTitleSort("");
+      setDateSortClass(
+        dateSort === "ASC" ? "bi bi-sort-numeric-up" : "bi bi-sort-numeric-down"
+      );
+    } else if (dateSort === "") {
+      setDateSortClass("bi bi-dash");
+    }
+  }, [dateSort]);
+  useEffect(() => {
+    if (titleSort === "ASC" || titleSort === "DESC") {
+      setDateSort("");
+      setTitleSortClass(
+        titleSort === "ASC" ? "bi bi-sort-alpha-up" : "bi bi-sort-alpha-down"
+      );
+    } else if (titleSort === "") {
+      setTitleSortClass("bi bi-dash");
+    }
+  }, [titleSort]);
   return (
     <Layout title={"Dashboard"}>
       <div className="ressources_main_container">
@@ -117,26 +141,23 @@ export default function Dashboard(): React.ReactNode {
             <button
               className="btn_sort"
               onClick={() =>
-                titleSort === "ASC" ? setTitleSort("DESC") : setTitleSort("ASC")
+                titleSort === "DESC" || titleSort === ""
+                  ? setTitleSort("ASC")
+                  : setTitleSort("DESC")
               }
             >
-              {titleSort === "ASC" ? (
-                <i className="bi bi-sort-alpha-down"></i>
-              ) : (
-                <i className="bi bi-sort-alpha-up"></i>
-              )}
+              <i id="title-sort" className={titleSortClass}></i>
+              Titre
             </button>
             <button
               className="btn_sort"
               onClick={() =>
-                dateSort === "ASC" ? setDateSort("DESC") : setDateSort("ASC")
+                dateSort === "DESC" || dateSort === ""
+                  ? setDateSort("ASC")
+                  : setDateSort("DESC")
               }
             >
-              {dateSort === "ASC" ? (
-                <i className="bi bi-arrow-down"></i>
-              ) : (
-                <i className="bi bi-arrow-up"></i>
-              )}
+              <i id="date-sort" className={dateSortClass}></i>
               Date
             </button>
           </div>
