@@ -91,6 +91,10 @@ export const GET_ALL_RESSOURCES_FROM_ONE_USER = gql`
           path
         }
       }
+      image_id {
+        name
+        path
+      }
       created_at
     }
   }
