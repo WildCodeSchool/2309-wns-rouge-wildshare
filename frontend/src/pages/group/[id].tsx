@@ -130,31 +130,32 @@ export default function GroupDashboard(): React.ReactNode {
     <Layout title={"Dashboard Groupe"}>
       <div className="ressources_main_container">
         {dataGroup ? (
-          <div className="d-flex justify-content-between align-items-center">
-            <h1>{dataGroup.item.name}</h1>
-            <button
-              className="btn_primary menu_button_add_group mx-4"
-              onClick={() => handleInviteMemberModal(true)}
-            >
-              <i className="bi bi-plus-circle" />
-              <span>Partager</span>
-            </button>
+          <div className="d-flex justify-content-between align-items-center w-100">
+            <div className="d-flex">
+              <h1>{dataGroup.item.name}</h1>
+              <button
+                className="btn_primary menu_button_add_group mx-4"
+                onClick={() => handleInviteMemberModal(true)}
+              >
+                <i className="bi bi-plus-circle" />
+                <span>Partager</span>
+              </button>
+            </div>
+            <div className="d-flex justify-content-start align-items-center search_input_container">
+              <i className="bi bi-search"></i>
+              <input
+                type="text"
+                placeholder="Rechercher par titre"
+                onChange={(e) => setSearchTitle(e.target.value)}
+              />
+            </div>
           </div>
         ) : (
           <>
             <h2>Group Not Found</h2>
           </>
         )}
-        
-          <div className="d-flex justify-content-start align-items-center search_input_container">
-            <i className="bi bi-search"></i>
-            <input
-              type="text"
-              placeholder="Rechercher par titre"
-              onChange={(e) => setSearchTitle(e.target.value)}
-            />
-          
-        </div>
+
         <div className="add_ressources_button">
           <h2>Ressources</h2>
           <button
