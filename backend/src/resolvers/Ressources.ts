@@ -63,14 +63,14 @@ export class RessourceResolver {
       } else {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const queryOrderBy: any = {};
-        if (orderBy?.title && ["ASC", "DESC"].includes(orderBy?.title)) {
-          queryOrderBy.title = orderBy?.title;
-        }
         if (
           orderBy?.created_at &&
           ["ASC", "DESC"].includes(orderBy?.created_at)
         ) {
           queryOrderBy.created_at = orderBy?.created_at;
+        }
+        if (orderBy?.title && ["ASC", "DESC"].includes(orderBy?.title)) {
+          queryOrderBy.title = orderBy?.title;
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,14 +110,14 @@ export class RessourceResolver {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const queryOrderBy: any = {};
-      if (orderBy?.title && ["ASC", "DESC"].includes(orderBy?.title)) {
-        queryOrderBy.title = orderBy?.title;
-      }
       if (
         orderBy?.created_at &&
         ["ASC", "DESC"].includes(orderBy?.created_at)
       ) {
         queryOrderBy.created_at = orderBy?.created_at;
+      }
+      if (orderBy?.title && ["ASC", "DESC"].includes(orderBy?.title)) {
+        queryOrderBy.title = orderBy?.title;
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
