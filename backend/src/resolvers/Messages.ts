@@ -1,4 +1,4 @@
-import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, ID, Mutation, Query, Resolver, Authorized } from "type-graphql";
 import {
   MessageCreateInput,
   Message,
@@ -8,11 +8,14 @@ import { validate } from "class-validator";
 
 @Resolver(Message)
 export class MessageResolver {
+
+  @Authorized()
   @Query(() => [Message])
   async getAllMessages(): Promise<Message[]> {
     return await Message.find();
   }
 
+  @Authorized()
   @Query(() => Message)
   async getOneMessage(
     @Arg("id", () => ID) id: number
@@ -25,6 +28,7 @@ export class MessageResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => Message)
   async createMessage(
     @Arg("data", () => MessageCreateInput) data: MessageCreateInput
@@ -44,6 +48,7 @@ export class MessageResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => Message, { nullable: true })
   async updateMessage(
     @Arg("id", () => ID) id: number,
@@ -62,6 +67,7 @@ export class MessageResolver {
     return message;
   }
 
+  @Authorized()
   @Mutation(() => Message, { nullable: true })
   async deleteMessage(
     @Arg("id", () => ID) id: number

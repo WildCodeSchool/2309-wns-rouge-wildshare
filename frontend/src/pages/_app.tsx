@@ -36,7 +36,15 @@ const client = new ApolloClient({
   link,
 });
 
-const publicPages = ["/sign-in", "/sign-up"];
+const publicPages = [
+  "/sign-in",
+  "/sign-up",
+  "/",
+  "/request-reset-password",
+  "/reset-password",
+  "/validation",
+  "/token-expired",
+];
 
 function Auth(props: { children: React.ReactNode }) {
   const router = useRouter();

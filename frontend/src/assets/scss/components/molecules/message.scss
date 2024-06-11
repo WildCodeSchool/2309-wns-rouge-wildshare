@@ -1,0 +1,12 @@
+.message-container {
+  width: 100%;
+  background-color: $primary-color4;
+  p {
+    font-size: 0.875em;
+  }
+  border-top-left-radius: 0;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
