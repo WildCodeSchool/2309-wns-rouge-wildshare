@@ -18,16 +18,27 @@ import { validate } from "class-validator";
 import { pubSub } from "../pubsub";
 import { ContextType } from "../middlewares/auth";
 import { Group } from "../entities/Group";
+import { Member } from "../entities/Member";
 
 @Resolver(Message)
 export class MessageResolver {
   @Subscription(() => Message, {
     topics: "MESSAGES",
-    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
+    filter: async ({ payload, args, context }) => { 
+       const groups =  await Group.find({
+        where: { members: { user: { id: context.user?.id } } },
+        relations: {
+          created_by_user: true,
+          members: { user: true },
+        }})
+      const findGroup = groups.find( item => item.id === payload.group_id)
+      
+      return findGroup === undefined ? false : true;
+    },
   })
   onMessage(
-    @Root() payload: Message
-    //@Args() args: NewNotificationsArgs
+    @Root() payload: Message,
+    @Arg("group") group : number
   ): Message {
     return payload;
   }
