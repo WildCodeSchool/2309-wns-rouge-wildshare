@@ -211,13 +211,18 @@ export class RessourceResolver {
     return ressource;
   }
 
+  @Authorized()
   @Mutation(() => Ressource, { nullable: true })
   async deleteRessource(
-    @Arg("id", () => ID) id: number
+    @Arg("id", () => ID) id: number,
+    @Ctx() context: ContextType
   ): Promise<Ressource | null> {
+    if(!context.user){
+      throw new Error ('Vous ne pouvez pas supprimer cette ressource')
+    }
     try {
       const ressource = await Ressource.findOne({ where: { id: id } });
-      if (ressource) {
+      if (ressource && ressource.created_by_user.id === context.user.id) {
         await ressource.remove();
         ressource.id = id;
       }

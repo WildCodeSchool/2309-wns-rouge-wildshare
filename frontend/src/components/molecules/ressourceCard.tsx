@@ -6,6 +6,9 @@ import FavoriteBtn from "../atoms/favoriteBtn";
 import Avatar from "../atoms/avatar";
 import { RessourceType } from "@/types/ressources.types";
 import { UserType } from "@/types/user.types";
+import { useMutation, useQuery } from "@apollo/client";
+import { MY_PROFILE } from "@/requests/user";
+import { DELETE_RESSOURCE } from "@/requests/ressources";
 
 export type RessourceCardProps = {
   ressource: RessourceType;
@@ -18,7 +21,9 @@ export type UserProps = {
 export default function RessourceCard(
   props: RessourceCardProps
 ): React.ReactNode {
+  const { data: dataUser } = useQuery<{ item: UserType | null }>(MY_PROFILE);
   const { ressource } = props;
+  const [doDeleteRessource] = useMutation(DELETE_RESSOURCE, {variables : {id: ressource.id}})
   const [ressourceImageSrc, setRessourceImageSrc] = useState<string>(
     "https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
   );
@@ -35,6 +40,14 @@ export default function RessourceCard(
     }
   }, [props]);
 
+  const handleDelete = async () => {
+    try {
+      await doDeleteRessource();
+    } catch (error) {
+      console.error("Erreur durant la supression de la ressource")
+    }
+  };
+
   return (
     <>
       <div className="card card-custom mb-3" style={{ borderRadius: 30 }}>
@@ -43,9 +56,16 @@ export default function RessourceCard(
             user={ressource.created_by_user}
             date={ressource.created_at}
           />
-          <button className="card_header_btn">
-            <i className="bi bi-three-dots"></i>
-          </button>
+         <div className="dropdown">
+  <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown button
+  </button>
+  <ul className="dropdown-menu">
+    <li><a className="dropdown-item" href="#">modifier</a></li>
+    <li><a className="dropdown-item" href="#">Another action</a></li>
+    <li><a className="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
         </div>
         <div>
           <Image

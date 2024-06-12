@@ -99,3 +99,11 @@ export const GET_ALL_RESSOURCES_FROM_ONE_USER = gql`
     }
   }
 `;
+
+export const DELETE_RESSOURCE = gql`
+  mutation DeleteRessource($deleteRessourceId: ID!) {
+    item: deleteRessource(id: $deleteRessourceId) {
+      id
+    }
+  }`
+;
