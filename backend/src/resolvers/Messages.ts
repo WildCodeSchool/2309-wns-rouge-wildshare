@@ -7,6 +7,7 @@ import {
   Authorized,
   Subscription,
   Root,
+  Ctx,
 } from "type-graphql";
 import {
   MessageCreateInput,
@@ -15,6 +16,8 @@ import {
 } from "../entities/Message";
 import { validate } from "class-validator";
 import { pubSub } from "../pubsub";
+import { ContextType } from "../middlewares/auth";
+import { Group } from "../entities/Group";
 
 @Resolver(Message)
 export class MessageResolver {
@@ -31,8 +34,13 @@ export class MessageResolver {
 
   @Authorized()
   @Query(() => [Message])
-  async getAllMessages(): Promise<Message[]> {
-    return await Message.find();
+  async getAllMessages( 
+    @Arg("groupId", () => ID) groupId: number
+  ): Promise<Message[]> {
+    return await Message.find({where : {group : {id : groupId }}, relations: {
+      group: true,
+      created_by_user : { avatar : true}
+    }},);
   }
 
   @Authorized()
@@ -51,10 +59,21 @@ export class MessageResolver {
   @Authorized()
   @Mutation(() => Message)
   async createMessage(
+    @Ctx() context: ContextType,
     @Arg("data", () => MessageCreateInput) data: MessageCreateInput
   ): Promise<Message> {
     try {
+      if (!context.user) {
+        throw new Error(`error`);
+      }
       const newMessage = new Message();
+      const group = await Group.findOneBy({id : data.group})
+      if(group){
+        newMessage.group = group; 
+        newMessage.created_by_user = context.user;
+        newMessage.message = data.message;
+      }
+     
       console.log(data);
       const error = await validate(newMessage);
 
