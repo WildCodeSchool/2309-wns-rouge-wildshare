@@ -8,7 +8,6 @@ import { validate } from "class-validator";
 
 @Resolver(Message)
 export class MessageResolver {
-
   @Authorized()
   @Query(() => [Message])
   async getAllMessages(): Promise<Message[]> {

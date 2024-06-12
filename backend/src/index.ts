@@ -11,6 +11,8 @@ import { populateBdd } from "./utils/populateBdd";
 import { getSchema } from "./schema";
 import { User } from "./entities/User";
 import { initializeRoutes } from "./routes";
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 
 const start = async () => {
   const schema = await getSchema();
@@ -18,9 +20,37 @@ const start = async () => {
   const app = express();
   const httpServer = http.createServer(app);
 
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
+  });
+
+  useServer(
+      {
+        schema,
+        context: async (wsContext) => {
+          console.log('WebSocket context:', wsContext)
+          return {
+            connection: wsContext.connectionParams,
+          }
+        },
+        onConnect: (context) => {
+          console.log('-----------------Connected!-----------------', context)
+          // Vous pouvez ajouter une vérification ici pour valider le token si nécessaire
+        },
+        onDisconnect: (code, reason) => {
+          console.log(
+              '-------------Disconnected!-------------------',
+              code,
+              reason
+          )
+        },
+      },
+      wsServer
+  )
   const server = new ApolloServer<ContextType>({
     schema,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }),],
   });
   await server.start();
 
