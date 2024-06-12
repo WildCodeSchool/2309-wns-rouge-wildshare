@@ -10,7 +10,7 @@ import path from "path";
 export function initializeRoutes(app: Express) {
   app.use("/files", express.static(path.join(__dirname, "../upload")));
   const acceptedAvatarMimeType = ["image/jpg", "image/png", "image/jpeg"];
-  const acceptedFileMimeType = ["image/jpg", "image/png", "image/jpeg"];
+  const acceptedFileMimeType = ["image/jpg", "image/png", "image/jpeg", "application/pdf", "application/zip"];
 
   const avatarStorage = multer.memoryStorage();
 
