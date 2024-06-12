@@ -1,13 +1,33 @@
-import { Arg, ID, Mutation, Query, Resolver, Authorized } from "type-graphql";
+import {
+  Arg,
+  ID,
+  Mutation,
+  Query,
+  Resolver,
+  Authorized,
+  Subscription,
+  Root,
+} from "type-graphql";
 import {
   MessageCreateInput,
   Message,
   MessageUpdateInput,
 } from "../entities/Message";
 import { validate } from "class-validator";
+import { pubSub } from "../pubsub";
 
 @Resolver(Message)
 export class MessageResolver {
+  @Subscription(() => Message, {
+    topics: "MESSAGES",
+    filter: ({ payload, args }) => args.priorities.includes(payload.priority),
+  })
+  onMessage(
+    @Root() payload: Message
+    //@Args() args: NewNotificationsArgs
+  ): Message {
+    return payload;
+  }
 
   @Authorized()
   @Query(() => [Message])
@@ -35,12 +55,14 @@ export class MessageResolver {
   ): Promise<Message> {
     try {
       const newMessage = new Message();
+      console.log(data);
       const error = await validate(newMessage);
 
       if (error.length > 0) {
         throw new Error(`error occured ${JSON.stringify(error)}`);
       } else {
         const datas = await newMessage.save();
+        pubSub.publish("MESSAGES", newMessage);
         return datas;
       }
     } catch (error) {

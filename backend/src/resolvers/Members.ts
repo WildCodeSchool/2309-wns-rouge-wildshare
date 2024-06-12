@@ -6,10 +6,8 @@ import {
 } from "../entities/Member";
 import { validate } from "class-validator";
 
-
 @Resolver(Member)
 export class MemberResolver {
-
   @Authorized()
   @Query(() => [Member])
   async getAllMembers(): Promise<Member[]> {
