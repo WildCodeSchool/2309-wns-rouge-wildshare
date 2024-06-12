@@ -53,7 +53,10 @@ export class Message extends BaseEntity {
 export class MessageCreateInput {
   @Field()
   message!: string;
+  @Field()
+  group!: number;
 }
+
 
 @InputType()
 export class MessageUpdateInput {
