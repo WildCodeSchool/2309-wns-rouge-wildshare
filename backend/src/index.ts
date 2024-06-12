@@ -25,7 +25,18 @@ const start = async () => {
     //path: "/subscriptions",
   });
 
-  const serverCleanup = useServer({ schema }, wsServer);
+  const serverCleanup = useServer(
+    {
+      schema,
+      context: (connection) => {
+        return {
+          req: connection.extra.request,
+          res: null,
+        };
+      },
+    },
+    wsServer
+  );
 
   const server = new ApolloServer<ContextType>({
     schema,
