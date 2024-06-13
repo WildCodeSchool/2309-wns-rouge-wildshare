@@ -12,6 +12,11 @@
     font-size: 1em;
     font-family: poppinsMedium;
   }
+  .message_date {
+    font-size: 0.75em;
+    font-family: poppinsLight;
+    color: $primary-color11;
+  }
 
   .container {
     height: 100%;
@@ -31,12 +36,15 @@
 }
 
 .textInput-container {
-  position: absolute;
-  background-color: white;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  border-top: 1px solid $primary-color7;
+  height: 100px;
+  margin-bottom: 50px;
+  background-color: transparent;
   textarea {
     width: 100%;
+    max-height: 80px;
+    border-radius: 20px;
+    padding: 8px;
+    border: 1px solid $primary-color7;
   }
 }

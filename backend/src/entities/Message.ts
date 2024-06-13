@@ -57,7 +57,6 @@ export class MessageCreateInput {
   group!: number;
 }
 
-
 @InputType()
 export class MessageUpdateInput {
   @Field()

@@ -18,47 +18,49 @@ import { validate } from "class-validator";
 import { pubSub } from "../pubsub";
 import { ContextType } from "../middlewares/auth";
 import { Group } from "../entities/Group";
-import { Member } from "../entities/Member";
 
 @Resolver(Message)
 export class MessageResolver {
   @Subscription(() => Message, {
     topics: "MESSAGES",
-    filter: async ({ payload, args, context }) => { 
-      return payload.group.id === args.group 
+    filter: async ({ payload, args, context }) => {
+      return payload.group.id === +args.groupId;
     },
   })
   onMessage(
     @Root() payload: Message,
-    @Arg("group") group : number
+    @Arg("groupId", () => ID) groupId: number
   ): Message {
     return payload;
   }
 
   @Authorized()
   @Query(() => [Message])
-  async getAllMessages( 
+  async getAllMessages(
     @Ctx() context: ContextType,
     @Arg("groupId", () => ID) groupId: number
   ): Promise<Message[]> {
-
     if (!context.user) {
       throw new Error(`error`);
     }
     const group = await Group.findOne({
-      where: { id : groupId, members: { user: { id: context.user?.id }}},
+      where: { id: groupId, members: { user: { id: context.user?.id } } },
       relations: {
         created_by_user: true,
         members: { user: true },
       },
     });
-    if(!group){
-       throw new Error ("group not found")
+    if (!group) {
+      throw new Error("group not found");
     }
-    return await Message.find({where : {group : {id : groupId }}, relations: {
-      group: true,
-      created_by_user : { avatar : true}
-    }},);
+    return await Message.find({
+      where: { group: { id: groupId } },
+      relations: {
+        group: true,
+        created_by_user: { avatar: true },
+      },
+      order: { created_at: "ASC" },
+    });
   }
 
   @Authorized()
@@ -86,20 +88,20 @@ export class MessageResolver {
       }
       const newMessage = new Message();
       const group = await Group.findOne({
-        where: { id : data.group, members: { user: { id: context.user?.id }}},
+        where: { id: data.group, members: { user: { id: context.user?.id } } },
         relations: {
-          created_by_user: {avatar : true},
+          created_by_user: { avatar: true },
           members: { user: true },
         },
       });
-      
-      if(group){
-        newMessage.group = group; 
+
+      if (group) {
+        newMessage.group = group;
         newMessage.created_by_user = context.user;
         newMessage.message = data.message;
-      }else{
-        throw new Error ("user not in group")
-      }   
+      } else {
+        throw new Error("user not in group");
+      }
       const error = await validate(newMessage);
 
       if (error.length > 0) {

@@ -250,6 +250,7 @@ export default function GroupDashboard(): React.ReactNode {
           />
         </ModalComponent>
         <ChatDisplay
+          groupId={groupId}
           opened={chatVisible}
           handleChatDisplay={handleChatVisible}
         />
