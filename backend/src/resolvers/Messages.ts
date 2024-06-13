@@ -25,15 +25,7 @@ export class MessageResolver {
   @Subscription(() => Message, {
     topics: "MESSAGES",
     filter: async ({ payload, args, context }) => { 
-       const groups =  await Group.find({
-        where: { members: { user: { id: context.user?.id } } },
-        relations: {
-          created_by_user: true,
-          members: { user: true },
-        }})
-      const findGroup = groups.find( item => item.id === payload.group_id)
-      
-      return findGroup === undefined ? false : true;
+      return payload.group.id === args.group 
     },
   })
   onMessage(
@@ -46,8 +38,23 @@ export class MessageResolver {
   @Authorized()
   @Query(() => [Message])
   async getAllMessages( 
+    @Ctx() context: ContextType,
     @Arg("groupId", () => ID) groupId: number
   ): Promise<Message[]> {
+
+    if (!context.user) {
+      throw new Error(`error`);
+    }
+    const group = await Group.findOne({
+      where: { id : groupId, members: { user: { id: context.user?.id }}},
+      relations: {
+        created_by_user: true,
+        members: { user: true },
+      },
+    });
+    if(!group){
+       throw new Error ("group not found")
+    }
     return await Message.find({where : {group : {id : groupId }}, relations: {
       group: true,
       created_by_user : { avatar : true}
@@ -78,21 +85,28 @@ export class MessageResolver {
         throw new Error(`error`);
       }
       const newMessage = new Message();
-      const group = await Group.findOneBy({id : data.group})
+      const group = await Group.findOne({
+        where: { id : data.group, members: { user: { id: context.user?.id }}},
+        relations: {
+          created_by_user: {avatar : true},
+          members: { user: true },
+        },
+      });
+      
       if(group){
         newMessage.group = group; 
         newMessage.created_by_user = context.user;
         newMessage.message = data.message;
-      }
-     
-      console.log(data);
+      }else{
+        throw new Error ("user not in group")
+      }   
       const error = await validate(newMessage);
 
       if (error.length > 0) {
         throw new Error(`error occured ${JSON.stringify(error)}`);
       } else {
         const datas = await newMessage.save();
-        pubSub.publish("MESSAGES", newMessage);
+        pubSub.publish("MESSAGES", datas);
         return datas;
       }
     } catch (error) {
