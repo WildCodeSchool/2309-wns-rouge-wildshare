@@ -64,9 +64,8 @@ const start = async () => {
       origin: "http://localhost:3000",
     })
   );
-  app.use((req, res, next) => {
-    logger(req, res, next);
-  });
+  app.use(express.json());
+  app.use(logger);
   const router = express.Router();
   initializeRoutes(router);
   app.use("/api", router);

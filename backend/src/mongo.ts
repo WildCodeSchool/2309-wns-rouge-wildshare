@@ -15,7 +15,7 @@ const Log = mongoose.model("Log", LogSchema);
 const connectMongoDB = async () => {
   try {
     await mongoose.connect(
-      `mongodb://root:root@mongo:27017/logs?authSource=admin`
+      `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/logs?authSource=admin`
     );
     // eslint-disable-next-line no-console
     console.log("MongoDB connected");

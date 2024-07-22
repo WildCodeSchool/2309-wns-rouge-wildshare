@@ -33,7 +33,7 @@ services:
   mongo:
     image: mongo
     restart: always
-    environment:
+    env_file:
       - .env
     ports:
       - 27017:27017

@@ -7,11 +7,13 @@ const logger = async (req: Request, res: Response, next: NextFunction) => {
   if (req.method === "POST") {
     const user = await getUser(req, res);
     if (user) {
-      const log = new Log({
-        message: `Request  ${req.method} ${req.url}`,
-        userId: `${user.id}`,
-      });
-      await log.save();
+      if (Object.keys(req.body).length === 0) {
+        const log = new Log({
+          message: `Request  ${req.method} ${req.url}`,
+          userId: `${user.id}`,
+        });
+        await log.save();
+      }
     }
   }
 
