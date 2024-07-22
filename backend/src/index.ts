@@ -13,6 +13,8 @@ import { User } from "./entities/User";
 import { initializeRoutes } from "./routes";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
+import { connectMongoDB } from "./mongo";
+import logger from "./middlewares/logRest";
 
 const start = async () => {
   const schema = await getSchema();
@@ -62,7 +64,9 @@ const start = async () => {
       origin: "http://localhost:3000",
     })
   );
-
+  app.use((req, res, next) => {
+    logger(req, res, next);
+  });
   const router = express.Router();
   initializeRoutes(router);
   app.use("/api", router);
@@ -85,6 +89,7 @@ const start = async () => {
   console.log(`🚀 Server ready at http://localhost:4000/`);
 
   await dataSource.initialize();
+  await connectMongoDB();
   const user = await User.findOneBy({ email: "dev@gmail.com" });
   if (!user) {
     await populateBdd();
