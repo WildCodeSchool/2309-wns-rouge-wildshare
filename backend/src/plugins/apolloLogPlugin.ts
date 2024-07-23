@@ -34,17 +34,3 @@ const apolloLogPlugin = {
 };
 
 export default apolloLogPlugin;
-
-/* return {
-  didResolveOperation(context: any) {
-    /*  if (Object.keys(req.body).length === 0) {
-      const log = new Log({
-        message: `Request  ${req.method} ${req.url}`,
-        userId: `${user.id}`,
-      });
-      await log.save();
-    }
-    const operationType = context.operation.operation;
-    console.log("CONTEXT", context);
-  },
-}; */
