@@ -16,7 +16,7 @@ export default function avatarProfil(props: avatarProfilType) {
         setAvatarSrc(props.avatarSrc);
       } else {
         setAvatarSrc(
-          `http://localhost:4000/files/${props.avatarSrc.replace(
+          `http://localhost:4000/api/files/${props.avatarSrc.replace(
             "/app/upload/",
             ""
           )}`

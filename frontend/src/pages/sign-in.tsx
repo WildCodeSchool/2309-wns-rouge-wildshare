@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { SIGN_IN, MY_PROFILE } from "@/requests/user";
+import { SIGN_IN } from "@/requests/user";
 import { useRouter } from "next/router";
 import Logo from "@/components/atoms/logo";
 import { Alert } from "react-bootstrap";
@@ -15,7 +15,6 @@ export default function SignIn() {
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     variables: { data: { email, password, isTest: false } },
-    refetchQueries: [MY_PROFILE],
     onCompleted: () => router.replace("/dashboard"),
     onError: (error) => {
       if (error.message.includes("user not found")) {

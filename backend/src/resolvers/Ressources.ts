@@ -21,8 +21,8 @@ import { ContextType } from "../middlewares/auth";
 import { File } from "../entities/File";
 import { Link } from "../entities/Link";
 import { Like } from "typeorm";
-import {Group} from "../entities/Group";
-
+import { Group } from "../entities/Group";
+import { Image } from "../entities/Image";
 @Resolver(Ressource)
 export class RessourceResolver {
   @Authorized()
@@ -165,6 +165,17 @@ export class RessourceResolver {
       const newRessource = new Ressource();
       newRessource.title = data.title;
       newRessource.description = data.description;
+      console.log("DATA", data);
+      if (data.imageId) {
+        const image = await Image.findOne({ where: { id: data.imageId } });
+        console.log("IMAGE", image);
+        if (image) {
+          newRessource.image_id = image;
+        }
+      } else {
+        console.log("SCAM", data.imageId);
+      }
+
       if (data.type === "link" && data.entityId) {
         const link = await Link.findOneBy({
           id: data.entityId,

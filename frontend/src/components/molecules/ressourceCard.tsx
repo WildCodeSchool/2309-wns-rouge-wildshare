@@ -22,12 +22,11 @@ export default function RessourceCard(
   const [ressourceImageSrc, setRessourceImageSrc] = useState<string>(
     ressource?.image_id?.path.includes("://")
       ? ressource.image_id.path
-      : `http://localhost:4000/files/${ressource?.image_id?.path.replace(
+      : `http://localhost:4000/api/files/${ressource?.image_id?.path.replace(
           "/app/upload/",
           ""
         )}`
   );
-
 
   return (
     <>
@@ -56,22 +55,29 @@ export default function RessourceCard(
           />
         </div>
         <div className="card-body pb-5">
-          <div className="d-flex gap-1">
-          </div>
+          <div className="d-flex gap-1"></div>
           <h5 className="card-title pt-2 title">{ressource.title}</h5>
           {ressource.link_id && (
-            <a href={ressource.link_id.url} target="_blank" rel="noopener noreferrer">
+            <a
+              href={ressource.link_id.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i className="bi bi-link"></i>
             </a>
           )}
-        {ressource.file_id && (
+          {ressource.file_id && (
             <a
-              href={`http://localhost:4000/download/${ressource.file_id.path.replace("/app/upload/ressources/", "")}`}
+              href={`http://localhost:4000/download/${ressource.file_id.path.replace(
+                "/app/upload/ressources/",
+                ""
+              )}`}
               download={ressource.file_id.title}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <i className="bi bi-file-earmark-arrow-down"></i> {ressource.file_id.title}
+              <i className="bi bi-file-earmark-arrow-down"></i>{" "}
+              {ressource.file_id.title}
             </a>
           )}
           <p className="card-text description">{ressource.description}</p>
