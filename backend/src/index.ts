@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { dataSource } from "./datasource";
-import { ContextType, customRESTAuthChecker } from "./middlewares/auth";
+import { ContextType } from "./middlewares/auth";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import express from "express";
@@ -15,6 +15,7 @@ import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { connectMongoDB } from "./mongo";
 import logger from "./middlewares/logRest";
+import apolloLogPlugin from "./plugins/apolloLogPlugin";
 
 const start = async () => {
   const schema = await getSchema();
@@ -54,6 +55,7 @@ const start = async () => {
           };
         },
       },
+      apolloLogPlugin,
     ],
   });
   await server.start();

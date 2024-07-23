@@ -10,7 +10,7 @@ const logger = async (req: Request, res: Response, next: NextFunction) => {
       if (Object.keys(req.body).length === 0) {
         const log = new Log({
           message: `Request  ${req.method} ${req.url}`,
-          userId: `${user.id}`,
+          user: `${user.id}`,
         });
         await log.save();
       }

@@ -4,9 +4,8 @@ require("dotenv");
 const Schema = mongoose.Schema;
 
 const LogSchema = new Schema({
-  id: Schema.ObjectId,
   message: { type: String, required: true },
-  userId: { type: String, required: true },
+  user: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
 });
 
