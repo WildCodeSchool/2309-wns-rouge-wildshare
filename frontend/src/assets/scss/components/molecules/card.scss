@@ -72,3 +72,28 @@
     color: black;
   }
 }
+
+.card-custom-display {
+  width: clamp(15em, 20vw, 20em);
+  max-height: 50px;
+  box-sizing: border-box;
+  .card_header_btn {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 1.25em;
+    color: black;
+  }
+  .card_header_btn:hover {
+    color: $primary-color2;
+  }
+  .title {
+    font-family: poppinsMedium;
+    font-size: 1.25em;
+  }
+  .description {
+    font-family: poppinsRegular;
+    font-size: 0.875em;
+    color: black;
+  }
+}
