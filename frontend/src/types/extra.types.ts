@@ -4,7 +4,7 @@ export type ExtraTypes = {
   created_at?: Date;
   created_by_user?: UserType | null;
   updated_at?: Date;
-  update_by_id?: number;
+  update_by_user?: UserType | null;
 };
 
 export type LogoType = {

@@ -3,10 +3,10 @@ import Image from "next/image";
 import { UserType } from "@/types/user.types";
 import { DateTime } from "luxon";
 
-export default function avatar(props: { date: Date; user: UserType }) {
+export default function avatar(props: { date: Date | string; user: UserType }) {
   let avatarImage = props.user.avatar?.path.includes("://")
     ? props.user.avatar.path
-    : `http://localhost:4000/files/${props.user.avatar?.path.replace(
+    : `http://localhost:4000/api/files/${props.user.avatar?.path.replace(
         "/app/upload/",
         ""
       )}`;

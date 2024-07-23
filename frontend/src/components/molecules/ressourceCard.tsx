@@ -40,7 +40,7 @@ export default function RessourceCard(
   const [ressourceImageSrc, setRessourceImageSrc] = useState<string>(
     ressource?.image_id?.path.includes("://")
       ? ressource.image_id.path
-      : `http://localhost:4000/files/${ressource?.image_id?.path.replace(
+      : `http://localhost:4000/api/files/${ressource?.image_id?.path.replace(
           "/app/upload/",
           ""
         )}`
