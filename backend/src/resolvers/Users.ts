@@ -186,7 +186,6 @@ export class UserResolver {
     @Arg("newPassword") newPassword: string,
     @Arg("confirmNewPassword") confirmNewPassword: string
   ): Promise<boolean> {
-    console.log('ICIICICIIICICIICII')
     const user = await User.findOneBy({ reset_password_token: token });
     if (!user) {
       throw new Error("User not found");
