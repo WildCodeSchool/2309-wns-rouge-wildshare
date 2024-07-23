@@ -16,6 +16,7 @@ import { Spinner } from "react-bootstrap";
 import { InView } from "react-intersection-observer";
 import SharingGroupForm from "@/components/organisms/sharingGroupForm";
 import ModalComponent from "@/components/organisms//modal";
+import ButtonWithToolTip from "@/components/atoms/buttonWithToolTips";
 import CreateRessourcesForm from "@/components/organisms/createRessourcesForm";
 import ChatDisplay from "@/components/organisms/chatDisplay";
 import { MY_PROFILE } from "@/requests/user";
@@ -33,16 +34,16 @@ export default function GroupDashboard(): React.ReactNode {
   const router = useRouter();
   const groupId = Number(router.query.id);
   const [modalInviteMemberVisible, setModalInviteMemberVisible] =
-      useState<boolean>(false);
+    useState<boolean>(false);
   const [modalRessourceVisible, setmodalRessourceVisible] =
-      useState<boolean>(false);
+    useState<boolean>(false);
   const [chatVisible, setChatVisible] = useState<boolean>(false);
   const [, setSkip] = useState<number>(0);
   const [take] = useState<number>(10);
   const [titleSort, setTitleSort] = useState<string>("");
   const [dateSort, setDateSort] = useState<string>("ASC");
   const [titleSortClass, setTitleSortClass] =
-      useState<string>("bi bi-sort-down");
+    useState<string>("bi bi-sort-down");
   const [dateSortClass, setDateSortClass] = useState<string>("bi bi-sort-down");
   const [searchTitle, setSearchTitle] = useState<string>("");
   const [deleteGroupError, setDeleteGroupError] = useState<string>("");
@@ -117,12 +118,12 @@ export default function GroupDashboard(): React.ReactNode {
       if (error.message.includes("Vous n'êtes pas seul dans le groupe.")) {
         setDeleteGroupError(error.message);
       } else if (
-          error.message.includes("Vous n'êtes pas le créateur du groupe.")
+        error.message.includes("Vous n'êtes pas le créateur du groupe.")
       ) {
         setDeleteGroupError(error.message);
       } else {
         setDeleteGroupError(
-            "Une erreur est survenue, veuillez contacter l'administrateur du site."
+          "Une erreur est survenue, veuillez contacter l'administrateur du site."
         );
       }
     },
@@ -139,14 +140,14 @@ export default function GroupDashboard(): React.ReactNode {
     onCompleted: () => router.replace("/dashboard"),
     onError: (error) => {
       if (
-          error.message.includes(
-              "Vous êtes le créateur du groupe, action non autorisé"
-          )
+        error.message.includes(
+          "Vous êtes le créateur du groupe, action non autorisé"
+        )
       ) {
         setDeleteGroupError(error.message);
       } else {
         setDeleteGroupError(
-            "Une erreur est survenue, veuillez contacter l'administrateur du site."
+          "Une erreur est survenue, veuillez contacter l'administrateur du site."
         );
       }
     },
@@ -172,7 +173,7 @@ export default function GroupDashboard(): React.ReactNode {
     if (dateSort === "ASC" || dateSort === "DESC") {
       setTitleSort("");
       setDateSortClass(
-          dateSort === "ASC" ? "bi bi-sort-numeric-down" : "bi bi-sort-numeric-up"
+        dateSort === "ASC" ? "bi bi-sort-numeric-down" : "bi bi-sort-numeric-up"
       );
     } else if (dateSort === "") {
       setDateSortClass("bi bi-dash");
@@ -182,7 +183,7 @@ export default function GroupDashboard(): React.ReactNode {
     if (titleSort === "ASC" || titleSort === "DESC") {
       setDateSort("");
       setTitleSortClass(
-          titleSort === "ASC" ? "bi bi-sort-alpha-down" : "bi bi-sort-alpha-up"
+        titleSort === "ASC" ? "bi bi-sort-alpha-down" : "bi bi-sort-alpha-up"
       );
     } else if (titleSort === "") {
       setTitleSortClass("bi bi-dash");
@@ -196,28 +197,48 @@ export default function GroupDashboard(): React.ReactNode {
           <div className="d-flex justify-content-between align-items-center w-100">
             <div className="d-flex">
               <h1>{dataGroup.item.name}</h1>
-              <button
-                className="btn_rounded btn_rounded_actions"
-                onClick={() => handleInviteMemberModal(true)}
+              <ButtonWithToolTip
+                id={"button-invite"}
+                title="Inviter des utilisateurs"
               >
-                <i className="bi bi-envelope-arrow-up" />
-              </button>
-              <button
-                className="btn_rounded btn_rounded_actions btn_message"
-                onClick={() => handleChatVisible(true)}
+                <button
+                  className="btn_rounded btn_rounded_actions"
+                  onClick={() => handleInviteMemberModal(true)}
+                >
+                  <i className="bi bi-envelope-arrow-up" />
+                </button>
+              </ButtonWithToolTip>
+              <ButtonWithToolTip
+                id={"button-chat"}
+                title="Discuter avec les membres du groupe"
               >
-                <i className="bi bi-chat" />
-              </button>
-              <button
-                className="btn_rounded btn_rounded_actions btn_quit_group "
-                onClick={() =>
-                  handleGroupQuit(
-                    dataUser?.item?.id === dataGroup?.item?.created_by_user?.id
-                  )
+                <button
+                  className="btn_rounded btn_rounded_actions btn_message"
+                  onClick={() => handleChatVisible(true)}
+                >
+                  <i className="bi bi-chat" />
+                </button>
+              </ButtonWithToolTip>
+              <ButtonWithToolTip
+                id={"button-chat"}
+                title={
+                  dataUser?.item?.id === dataGroup?.item?.created_by_user?.id
+                    ? "Supprimer le groupe"
+                    : "Quitter le groupe"
                 }
               >
-                <i className="bi bi-x-lg" />
-              </button>
+                <button
+                  className="btn_rounded btn_rounded_actions btn_quit_group "
+                  onClick={() =>
+                    handleGroupQuit(
+                      dataUser?.item?.id ===
+                        dataGroup?.item?.created_by_user?.id
+                    )
+                  }
+                >
+                  <i className="bi bi-x-lg" />
+                </button>
+              </ButtonWithToolTip>
               {deleteGroupError && (
                 <span className="text-danger">{deleteGroupError}</span>
               )}
