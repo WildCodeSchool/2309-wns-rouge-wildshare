@@ -93,6 +93,8 @@ export class RessourceCreateInput {
   type!: string;
   @Field({ nullable: true })
   groupId!: number;
+  @Field({ nullable: true })
+  imageId!: number;
 }
 
 @InputType()

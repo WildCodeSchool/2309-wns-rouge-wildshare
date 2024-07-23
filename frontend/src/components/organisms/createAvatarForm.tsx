@@ -8,7 +8,6 @@ import axiosInstance from "@/lib/axiosInstance";
 
 export default function CreateAvatarForm() {
   const [imageError, setImageError] = useState<string | null>(null);
-  // const [imageData, setImageData] = useState();
   const [image, setImage] = useState<string | null>(null);
   const { data: dataUser } = useQuery<{ item: UserType | null }>(MY_PROFILE);
 
@@ -32,7 +31,7 @@ export default function CreateAvatarForm() {
           "Une erreur est survenue pendant le chargement de votre image, veuillez contactez un administrateur"
         );
       }
-      const result = await axiosInstance.post('/upload/avatar', formData, {
+      const result = await axiosInstance.post("/upload/avatar", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -11,6 +11,11 @@ import { customRESTAuthChecker } from "./middlewares/auth";
 export function initializeRoutes(app: Router) {
   app.use("/files", express.static(path.join(__dirname, "../upload")));
   const acceptedAvatarMimeType = ["image/jpg", "image/png", "image/jpeg"];
+  const acceptedRessourcesImageMimeType = [
+    "image/jpg",
+    "image/png",
+    "image/jpeg",
+  ];
   const acceptedFileMimeType = [
     "image/jpg",
     "image/png",
@@ -26,7 +31,7 @@ export function initializeRoutes(app: Router) {
   ];
 
   const avatarStorage = multer.memoryStorage();
-
+  const RessourceImageStorage = multer.memoryStorage();
   const ressourcesStorage = multer.diskStorage({
     destination: "/app/upload/ressources",
     filename: function (req, file, cb) {
@@ -43,6 +48,19 @@ export function initializeRoutes(app: Router) {
     },
     fileFilter: (req, file, cb) => {
       if (acceptedAvatarMimeType.includes(file.mimetype)) {
+        cb(null, true);
+      } else {
+        return cb(new Error("Invalid mime type"));
+      }
+    },
+  });
+  const uploadRessourceImageDirectory = multer({
+    storage: RessourceImageStorage,
+    limits: {
+      fileSize: 1048576 * 5,
+    },
+    fileFilter: (req, file, cb) => {
+      if (acceptedRessourcesImageMimeType.includes(file.mimetype)) {
         cb(null, true);
       } else {
         return cb(new Error("Invalid mime type"));
@@ -129,6 +147,75 @@ export function initializeRoutes(app: Router) {
       } catch (error) {
         res.status(500).send({
           message: "Une erreur est survenue",
+        });
+      }
+    }
+  );
+  app.post(
+    "/upload/ressourceImage",
+    customRESTAuthChecker,
+    uploadRessourceImageDirectory.single("file"),
+    async (req, res) => {
+      try {
+        const user = await User.findOneBy({ id: req.body.userId });
+        if (req.file && req.file.mimetype.startsWith("image/") && user) {
+          const extension = mime.extension(req.file.mimetype);
+          const originalName = req.file.originalname.split(".");
+          const fileName = `${Date.now()}-U${user.id}-${
+            originalName[0]
+          }.${extension}`;
+          await sharp(req.file.buffer)
+            .resize(250, 250, { fit: "cover" })
+            .toFile(`/app/upload/ressourcesImages/${fileName}`);
+          const image = new Image();
+          image.name = fileName;
+          image.path = `/ressourcesImages/${fileName}`;
+          image.created_by_user = req.body.userId;
+          const result = await image.save();
+          res.json(result);
+        } else {
+          res.status(404).send({
+            message: "Une erreur est survenue",
+          });
+        }
+      } catch (error) {
+        res.status(404).send({
+          message: error,
+        });
+      }
+    }
+  );
+  app.post(
+    "/upload/updateRessourceImage",
+    customRESTAuthChecker,
+    uploadRessourceImageDirectory.single("file"),
+    async (req, res) => {
+      try {
+        const user = await User.findOneBy({ id: req.body.userId });
+        console.log(rq);
+        if (req.file && req.file.mimetype.startsWith("image/") && user) {
+          const extension = mime.extension(req.file.mimetype);
+          const originalName = req.file.originalname.split(".");
+          const fileName = `${Date.now()}-U${user.id}-${
+            originalName[0]
+          }.${extension}`;
+          await sharp(req.file.buffer)
+            .resize(250, 250, { fit: "cover" })
+            .toFile(`/app/upload/ressourcesImages/${fileName}`);
+          const image = new Image();
+          image.name = fileName;
+          image.path = `/ressourcesImages/${fileName}`;
+          image.created_by_user = req.body.userId;
+          const result = await image.save();
+          res.json(result);
+        } else {
+          res.status(404).send({
+            message: "Une erreur est survenue",
+          });
+        }
+      } catch (error) {
+        res.status(404).send({
+          message: error,
         });
       }
     }
