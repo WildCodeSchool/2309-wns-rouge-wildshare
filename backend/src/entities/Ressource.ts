@@ -34,10 +34,9 @@ export class Ressource extends BaseEntity {
   is_favorite!: boolean;
 
   @OneToOne(() => Image, { onDelete: "CASCADE" })
-  @OneToOne(() => Image)
   @JoinColumn()
   @Field(() => Image, { nullable: true })
-  image_id!: Image;
+  image_id!: Image | null;
 
   @Column({ type: "timestamp", nullable: true }) // to false for prod
   @Field()
@@ -103,6 +102,8 @@ export class RessourceUpdateInput {
   title!: string;
   @Field()
   description!: string;
+  @Field({ nullable: true })
+  imageId!: number;
 }
 
 @InputType()

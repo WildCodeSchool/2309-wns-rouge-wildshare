@@ -71,7 +71,8 @@ export default function RessourcesFormStep2(props: {
     try {
       e.preventDefault();
       const input = document.getElementById("imageUpload") as HTMLInputElement;
-      if (input && input.files) {
+
+      if (input && input.files && input.files.length > 0) {
         const file = input.files[0];
         const formData = new FormData();
         formData.append("file", file);
@@ -99,7 +100,7 @@ export default function RessourcesFormStep2(props: {
           );
         }
       } else {
-        await createNewRessource();
+        await createRessource();
       }
     } catch (error) {
       console.error(error);
@@ -120,7 +121,7 @@ export default function RessourcesFormStep2(props: {
         >
           <>
             <Form.Group className="mb-3 w-100">
-              <Form.Label>Titre de votre ressource</Form.Label>
+              <Form.Label>Image de votre ressource</Form.Label>
               <input
                 type="file"
                 className="form-control"
@@ -179,7 +180,7 @@ export default function RessourcesFormStep2(props: {
             <Image
               unoptimized
               className="img-fluid shadow-sm"
-              width={225}
+              width={275}
               height={100}
               alt="image display"
               priority

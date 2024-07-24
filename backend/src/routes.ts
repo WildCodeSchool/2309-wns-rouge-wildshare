@@ -7,6 +7,9 @@ import mime from "mime-types";
 import { File } from "./entities/File";
 import path from "path";
 import { customRESTAuthChecker } from "./middlewares/auth";
+import { unlink } from "node:fs";
+import { Ressource } from "./entities/Ressource";
+import { validate } from "class-validator";
 
 export function initializeRoutes(app: Router) {
   app.use("/files", express.static(path.join(__dirname, "../upload")));
@@ -165,7 +168,7 @@ export function initializeRoutes(app: Router) {
             originalName[0]
           }.${extension}`;
           await sharp(req.file.buffer)
-            .resize(250, 250, { fit: "cover" })
+            .resize(450, 450, { fit: "cover" })
             .toFile(`/app/upload/ressourcesImages/${fileName}`);
           const image = new Image();
           image.name = fileName;
@@ -191,8 +194,8 @@ export function initializeRoutes(app: Router) {
     uploadRessourceImageDirectory.single("file"),
     async (req, res) => {
       try {
+        const previousImageId = req.body.previousImageId;
         const user = await User.findOneBy({ id: req.body.userId });
-        console.log(rq);
         if (req.file && req.file.mimetype.startsWith("image/") && user) {
           const extension = mime.extension(req.file.mimetype);
           const originalName = req.file.originalname.split(".");
@@ -200,8 +203,30 @@ export function initializeRoutes(app: Router) {
             originalName[0]
           }.${extension}`;
           await sharp(req.file.buffer)
-            .resize(250, 250, { fit: "cover" })
+            .resize(450, 450, { fit: "cover" })
             .toFile(`/app/upload/ressourcesImages/${fileName}`);
+          if (previousImageId) {
+            const previousImage = await Image.findOne({
+              where: { id: Number(previousImageId) },
+            });
+            const ressource = await Ressource.findOne({
+              where: { id: req.body.ressourceId },
+              relations: { image_id: true },
+            });
+            if (ressource) {
+              ressource.image_id = null;
+              await validate(ressource);
+              await ressource.save();
+            }
+            if (previousImage) {
+              unlink(`/app/upload/${previousImage.path}`, async (err) => {
+                if (err) {
+                  console.error(err);
+                }
+                await previousImage.remove();
+              });
+            }
+          }
           const image = new Image();
           image.name = fileName;
           image.path = `/ressourcesImages/${fileName}`;
