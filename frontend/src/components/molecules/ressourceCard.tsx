@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Avatar from "../atoms/avatar";
 import { RessourceType } from "@/types/ressources.types";
@@ -38,7 +38,7 @@ export default function RessourceCard(
   const [ressourceImageSrc, setRessourceImageSrc] = useState<string>(
     ressource?.image_id?.path.includes("://")
       ? ressource.image_id.path
-      : `http://localhost:4000/api/files/${ressource?.image_id?.path.replace(
+      : `http://localhost:4000/api/files${ressource?.image_id?.path.replace(
           "/app/upload/",
           ""
         )}`
@@ -58,6 +58,18 @@ export default function RessourceCard(
       console.error("Erreur lors de la suppression", error);
     }
   };
+  useEffect(() => {
+    if (ressource.image_id?.path) {
+      setRessourceImageSrc(
+        ressource?.image_id?.path.includes("://")
+          ? ressource.image_id.path
+          : `http://localhost:4000/api/files${ressource?.image_id?.path.replace(
+              "/app/upload/",
+              ""
+            )}`
+      );
+    }
+  }, [ressource]);
 
   return (
     <>
@@ -74,10 +86,14 @@ export default function RessourceCard(
         <div>
           <Image
             unoptimized
-            className="img-fluid shadow-sm"
-            width={450}
-            height={450}
-            alt="jaky nackos"
+            className="img-fluid shadow-sm object-fit-cover"
+            width={350}
+            height={350}
+            alt={
+              ressource.image_id?.name
+                ? ressource.image_id?.name
+                : ressource.title
+            }
             priority
             src={ressourceImageSrc}
             onErrorCapture={() => {
