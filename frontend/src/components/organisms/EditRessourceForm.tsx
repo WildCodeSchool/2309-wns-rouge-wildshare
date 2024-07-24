@@ -12,6 +12,7 @@ import Avatar from "../atoms/avatar";
 import axiosInstance from "@/lib/axiosInstance";
 import { UserType } from "@/types/user.types";
 import { MY_PROFILE } from "@/requests/user";
+import { API_URL } from "@/config/config";
 
 type UpdateRessourceFormProps = {
   ressource: RessourceType;
@@ -30,7 +31,6 @@ export default function EditRessourceForm({
   const [updateRessource, { error: errorUpdateRessource }] = useMutation(
     UPDATE_RESSOURCE,
     {
-      awaitRefetchQueries: true,
       refetchQueries: [
         GET_ALL_RESSOURCES_FROM_ONE_USER,
         GET_RESSOURCES_BY_GROUP_ID,
@@ -40,10 +40,7 @@ export default function EditRessourceForm({
   const { data: dataUser } = useQuery<{ item: UserType | null }>(MY_PROFILE);
   const ressourceImage = ressource.image_id?.path.includes("://")
     ? ressource.image_id?.path
-    : `http://localhost:4000/api/files${ressource.image_id?.path.replace(
-        "/app/upload/",
-        ""
-      )}`;
+    : `${API_URL}/files${ressource.image_id?.path.replace("/app/upload/", "")}`;
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -125,7 +122,7 @@ export default function EditRessourceForm({
   return (
     <>
       <div className="title">
-        <span>Modifiez votre ressource </span>
+        <span>Modifier votre ressource </span>
       </div>
       <div className="custom_form ">
         <Form
@@ -169,7 +166,7 @@ export default function EditRessourceForm({
           <div className="button_container ">
             <button className="btn_primary" type="submit">
               <i className="bi bi-plus-circle" />
-              <span>Créer une nouvelle ressource</span>
+              <span>Modifier</span>
             </button>
           </div>
           {errorUpdateRessource && (
@@ -184,7 +181,10 @@ export default function EditRessourceForm({
           style={{ borderRadius: 30 }}
         >
           <div className="d-flex flex-row justify-content-between align-items-center px-4">
-            <Avatar user={dataUser?.item} date={new Date().toISOString()} />
+            <Avatar
+              user={dataUser?.item as UserType}
+              date={new Date().toISOString()}
+            />
           </div>
           <div>
             <Image
@@ -192,11 +192,11 @@ export default function EditRessourceForm({
               className="img-fluid shadow-sm"
               width={275}
               height={100}
-              alt="image display"
+              alt={title}
               priority
               src={
                 image ? image : ressourceImage || "/assets/avatars/no-image.png"
-              } // Provide a default value for the image variable
+              }
               onErrorCapture={() => {
                 setImage("/assets/avatars/no-image.png");
               }}

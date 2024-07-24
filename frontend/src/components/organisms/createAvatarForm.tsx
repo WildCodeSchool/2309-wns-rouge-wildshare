@@ -70,7 +70,7 @@ export default function CreateAvatarForm() {
             className="rounded-circle mx-auto my-3"
             height={150}
             width={150}
-            alt="jaky nackos"
+            alt={`${dataUser?.item?.lastname}${dataUser?.item?.firstname}`}
             priority
             src={image || "/assets/avatars/no-image.png"} // Provide a default value for the image variable
             onErrorCapture={() => {

@@ -172,7 +172,7 @@ export default function RessourcesFormStep2(props: {
         >
           <div className="d-flex flex-row justify-content-between align-items-center px-4">
             <Avatar
-              user={dataUser?.item ?? null}
+              user={dataUser?.item as UserType}
               date={new Date().toISOString()}
             />
           </div>
@@ -182,7 +182,7 @@ export default function RessourcesFormStep2(props: {
               className="img-fluid shadow-sm"
               width={275}
               height={100}
-              alt="image display"
+              alt={title}
               priority
               src={image || "/assets/avatars/no-image.png"} // Provide a default value for the image variable
               onErrorCapture={() => {

@@ -40,7 +40,7 @@ export default function RessourceCard(
   const [ressourceImageSrc, setRessourceImageSrc] = useState<string>(
     ressource?.image_id?.path.includes("://")
       ? ressource.image_id.path
-      : `http://localhost:4000/api/files${ressource?.image_id?.path.replace(
+      : `${API_URL}/files${ressource?.image_id?.path.replace(
           "/app/upload/",
           ""
         )}`
@@ -65,7 +65,7 @@ export default function RessourceCard(
       setRessourceImageSrc(
         ressource?.image_id?.path.includes("://")
           ? ressource.image_id.path
-          : `http://localhost:4000/api/files${ressource?.image_id?.path.replace(
+          : `${API_URL}/files${ressource?.image_id?.path.replace(
               "/app/upload/",
               ""
             )}`
@@ -144,12 +144,12 @@ export default function RessourceCard(
                 "/app/upload/ressources/",
                 ""
               )}`}
-              download={ressource.file_id.title}
+              download={ressource.file_id.name}
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="bi bi-file-earmark-arrow-down"></i>{" "}
-              {ressource.file_id.title}
+              {ressource.file_id.name}
             </a>
           )}
           <p className="card-text description">{ressource.description}</p>
