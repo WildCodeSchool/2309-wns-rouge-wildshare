@@ -105,7 +105,6 @@ export default function RessourcesFormStep2(props: {
       console.error(error);
     }
   };
-
   useEffect(() => {
     if (imageObject) {
       createRessource();
