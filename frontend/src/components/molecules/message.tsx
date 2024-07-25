@@ -11,7 +11,7 @@ export default function Message(props: {
   let avatarImage = props.item.created_by_user.avatar?.path.includes("://")
     ? props.item.created_by_user.avatar?.path
     : `${API_URL}/files${props.item.created_by_user.avatar?.path.replace(
-        "/app/upload/",
+        "/app/upload",
         ""
       )}`;
   return (

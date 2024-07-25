@@ -85,7 +85,7 @@ export default function profile() {
         } else {
           setAvatarSrc(
             `${API_URL}/files${dataUser.item.avatar.path.replace(
-              "/app/upload/",
+              "/app/upload",
               ""
             )}`
           );

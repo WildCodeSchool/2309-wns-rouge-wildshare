@@ -115,7 +115,7 @@ export default function Menu(props: {
                   alt={`${dataUser.item.firstname} ${dataUser.item.lastname} `}
                   priority
                   src={`${API_URL}/files${dataUser.item.avatar.path.replace(
-                    "/app/upload/",
+                    "/app/upload",
                     ""
                   )}`}
                   onClick={() => !menuOpened && setMenuOpened(true)}
@@ -236,7 +236,7 @@ export default function Menu(props: {
                   alt={`${dataUser.item.firstname} ${dataUser.item.lastname} `}
                   priority
                   src={`${API_URL}/files${dataUser.item.avatar.path.replace(
-                    "/app/upload/",
+                    "/app/upload",
                     ""
                   )}`}
                 />

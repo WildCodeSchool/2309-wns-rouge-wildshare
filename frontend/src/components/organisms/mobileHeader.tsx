@@ -45,7 +45,7 @@ export default function MobileHeader(props: {
           alt={`${dataUser.item.firstname} ${dataUser.item.lastname} `}
           priority
           src={`${API_URL}/files${dataUser.item.avatar.path.replace(
-            "/app/upload/",
+            "/app/upload",
             ""
           )}`}
         />
