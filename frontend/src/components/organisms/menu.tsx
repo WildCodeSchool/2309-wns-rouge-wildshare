@@ -114,7 +114,7 @@ export default function Menu(props: {
                   width={40}
                   alt={`${dataUser.item.firstname} ${dataUser.item.lastname} `}
                   priority
-                  src={`${API_URL}/files/${dataUser.item.avatar.path.replace(
+                  src={`${API_URL}/files${dataUser.item.avatar.path.replace(
                     "/app/upload/",
                     ""
                   )}`}
@@ -235,7 +235,7 @@ export default function Menu(props: {
                   width={40}
                   alt={`${dataUser.item.firstname} ${dataUser.item.lastname} `}
                   priority
-                  src={`${API_URL}/files/${dataUser.item.avatar.path.replace(
+                  src={`${API_URL}/files${dataUser.item.avatar.path.replace(
                     "/app/upload/",
                     ""
                   )}`}
